@@ -1,10 +1,12 @@
 # A3-基于百度飞桨的3D 医疗数据解析平台 赛事要求解读
+> 项目地址 https://github.com/pzq123456/MIP
 > pan V1
 
 > http://www.cnsoftbei.com/plus/view.php?aid=796
 > https://aistudio.baidu.com/aistudio/competition/detail/889/0/introduction
 
 > 注册地址 http://join.cnsoftbei.com/user/userinfo
+
 
 
 ## 赛事流程（根据去年经验）
@@ -37,5 +39,28 @@ https://www.cornerstonejs.org/
 https://www.orthanc-server.com/
 
 ## 项目管理开发工具
+
+### 团队管理工具
 - `git`：代码管理工具
 - `github`：代码托管平台
+### 文档管理工具
+- `jsdoc`：文档生成工具
+- `pydoc`：文档生成工具
+
+### 技术栈
+- `python`：后端开发语言
+- * `flask`：后端框架(接口封装)
+- * `paddle`：飞桨框架(算法)
+- * `数据库操作库`：数据库也可能用js写
+- `WebDicom Sever`：Dicoms数据库(Orthanc...)
+- `Radis`：缓存数据库(用以实现进度条等功能)
+- `javascript`：前端开发语言
+- * `vue`：前端框架
+- * `three.js`：3D可视化库
+- * `cornerstone`：2D可视化库
+- ...
+
+## 项目开发流程
+1. 前端项目组件化开发。
+2. 后端项目接口封装。
+
