@@ -1,8 +1,8 @@
-# A3-基于百度飞桨的3D 医疗数据解析平台 赛事要求解读
+# A3-基于百度飞桨的 3D 医疗数据解析平台 SKDDX20 组
 > - 项目地址 https://github.com/pzq123456/MIP
 > - http://www.cnsoftbei.com/plus/view.php?aid=796
 > - https://aistudio.baidu.com/aistudio/competition/detail/889/0/introduction
-> - 注册地址 http://join.cnsoftbei.com/user/userinfo
+
 
 ## 赛事流程（根据去年经验）
 - `算法打榜`预选赛（截止2023年5月1，打榜赛，根据算法成绩决定晋级区域赛；5月31针对未晋级区域赛的同学，开展复活赛，仅考核软件，考核方式为提交软件演示录制视频即可，不答辩）要点：
@@ -70,7 +70,7 @@ https://www.orthanc-server.com/
 
 - 成员信息
 ```
-    潘志清 18352874270
+    潘志清 18352874270 
     于嘉烨 19506151951
     韦立楠 16688089588
     覃仕锋 18077287271
