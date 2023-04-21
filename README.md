@@ -3,6 +3,11 @@
 > - 软件杯 http://www.cnsoftbei.com/plus/view.php?aid=796
 > - 打榜平台 https://aistudio.baidu.com/aistudio/competition/detail/889/0/introduction
 
+## 项目文档索引
+- [使用简介及算法任务](/docs/Ai_Studio教程.md)
+
+
+
 ## 赛事流程（根据去年经验）
 - `算法打榜`预选赛（截止2023年5月1，打榜赛，根据算法成绩决定晋级区域赛；5月31针对未晋级区域赛的同学，开展复活赛，仅考核软件，考核方式为提交软件演示录制视频即可，不答辩）要点：
 - * 基于`飞桨框架`的算法，一般有Baseline，可以直接使用。主要是在百度[AI Studio](https://aistudio.baidu.com/aistudio/index)上训练模型，然后提交推理结果交由平台打分。全国分区，每个区域赛前xx名晋级总决赛（去年预选赛我们是东部赛区第16名）。训练模型主要是修改超参数，调整网络结构，数据增强等。每天一个团队可提交六次。
