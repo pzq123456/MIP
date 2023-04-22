@@ -4,7 +4,7 @@
 > - 打榜平台 https://aistudio.baidu.com/aistudio/competition/detail/889/0/introduction
 
 ## 项目文档索引
-- [使用简介及算法任务](/docs/Ai_Studio教程.md)
+- [算法任务（完善中）](/docs/训练策略.md)
 
 
 
