@@ -44,9 +44,15 @@
 
 
 ## 已知的资源
-https://ohif.org/
-https://www.cornerstonejs.org/
-https://www.orthanc-server.com/
+
+| 项目 | 说明 | 地址 | 前端 | 后端 |
+| --- | --- | --- | --- | --- |
+| OHIF | 一个开源的医学影像查看器 | https://ohif.org/ | 1 | 0 |
+| Cornerstone | 医学影像前端二维处理套件 | https://www.cornerstonejs.org/ | 1 | 0 |
+| Med3web | 一个开源 3D 医学影像查看器 | https://med3web.com/ | 1 | 0 |
+| VTK.js | 一个开源的 3D 可视化库 | https://kitware.github.io/vtk-js/ | 1 | 0 |
+| Orthanc | 一个开源 DICOM 服务器 | https://www.orthanc-server.com/ | 0 | 1 |
+| NeurDICOM | 一个开源的 WecDICOM 后端 | https://github.com/reactmed/neurdicom | 0 | 1 |
 
 ## 项目管理开发工具
 
