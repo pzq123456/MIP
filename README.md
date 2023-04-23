@@ -96,6 +96,3 @@
     副教授
 ```
 
-wln修改
-git config --global user.name weilinan
-git config --global user.email 2498514473@qq.com
