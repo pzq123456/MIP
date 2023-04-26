@@ -106,7 +106,9 @@ loss:
     #         --log_iters 20 --precision fp16 --nnunet --save_dir output/cascade_lowres/fold4 --save_interval 2000 --use_vdl
 ```
 将上述代码复制并覆盖掉原来的 step5 （第一部分训练 不是第二部分推理）
+
 ![](img/3.jpg)
+
 > 然后根据自己分配到的任务，注释掉其他的代码，只运行自己的代码。我是 f0 ，所以只运行第一行代码。以此类推。
 
 ### 运行
@@ -123,19 +125,25 @@ loss:
 > 30000 iters 模型建议先打包压缩放在本地，以防丢失。
 
 ### 删除数据以腾出空间
-1. 首先查看 `PaddleSeg/contrib/MedicalSeg/output` 文件夹，看看是否有 `cascade_lowres_val` 文件夹。若有，说明你之前已经运行过验证步骤，可能验证的是 Baseline 模型，在这个文件夹里会存放预测数据还有原比赛数据，数据量比较大，所以需要删除。见下图：
-![](img/val.jpg)
-> 注意：
-> - 删除本文件夹后，后续步骤仍会生成新的 `cascade_lowres_val` 文件夹，那个才是真正的验证结果，不必删除。
-1. 然后查看 `PaddleSeg/contrib/MedicalSeg/output/cascade_lowres` 文件夹下的内容。找到你所训练的fold，例如我是 f0 ，所以找到 `fold0` 文件夹，然后打开该文件夹。见下图：
+
+1. 首先查看 `PaddleSeg/contrib/MedicalSeg/output` 文件夹，看看是否有 `cascade_lowres_val` 文件夹。若有，说明你之前已经运行过验证步骤，可能验证的是 Baseline 模型，在这个文件夹里会存放预测数据还有原比赛数据，数据量比较大，所以需要删除。见下图:
+
+-  ![](img/val.jpg)
+
+  > 注意：
+  > - 删除本文件夹后，后续步骤仍会生成新的 `cascade_lowres_val` 文件夹，那个才是真正的验证结果，不必删除。
   
-   ![](img/iter.jpg)
-   
+1. 然后查看 `PaddleSeg/contrib/MedicalSeg/output/cascade_lowres` 文件夹下的内容。找到你所训练的fold，例如我是 f0 ，所以找到 `fold0` 文件夹，然后打开该文件夹。见下图:
+
+  - ![](img/iter.jpg)
+
   > 仅保留最大的（30000），其余删除即可。
 
 ### 验证你所训练的模型
-首先看官方给的脚本:
-![](img/script.jpg)
+1. 首先看官方给的脚本:
+
+  ![](img/script.jpg)
+
 - 上图中的两步就是验证模型所需的命令。请参考我改写的命令，修改自己的。
 - 第一步命令不用动，只需要修改第二步命令即可。
 
