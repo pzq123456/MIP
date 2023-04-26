@@ -1,28 +1,27 @@
 <script setup>
 import HelloWorld from './components/HelloWorld.vue'
-</script>
+import D2Ver from './views/D2Ver.vue'
+</script> 
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
+  <h1>App.vue</h1>
+  <!-- 路由链接 -->
+  <!-- wrapper links with button in element plus -->
+  <el-button type="primary" @click="$router.push('/')">Go to Home</el-button>
+  <el-button type="primary" @click="$router.push('/d2ver')">Go to D2Ver</el-button>
+  <el-button type="primary" @click="$router.push('/d3ver')">Go to D3Ver</el-button>
+  <el-button type="primary" @click="$router.push('/segment')">Go to Segment</el-button>
+  <!-- <p>
+    <RouterLink to="/">Go to Home|</RouterLink>
+    <router-link to="/d2ver">Go to D2Ver|</router-link>
+    <router-link to="/d3ver">Go to D3Ver|</router-link>
+    <router-link to="/segment">Go to Segment|</router-link>
+  </p> -->
+  <!-- 路由出口 -->
+  <!-- 路由匹配到的组件将渲染在这里 -->
+  <router-view></router-view>
 
   <main>
     <TheWelcome />
   </main>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-</style>
