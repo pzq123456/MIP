@@ -3,8 +3,8 @@
 > 本文档中，我会约定一些开发规范、注意事项，以及经验总结。
 
 - [算法](./Algorithm/README.md)
-- [前端](./Frontend/README.md)
-- [后端](./Backend/README.md)
+- [前端](./FrontEnd/README.md)
+- [后端](./BackEnd/README.md)
 
 
 ```bash
