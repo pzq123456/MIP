@@ -6,8 +6,8 @@
 ## 文档索引
 - [算法任务（完善中）](/docs/Algorithm/README.md)
 - [项目架构（完善中）](/docs/README.md)
-- [前端任务（完善中）](/docs/Frontend/README.md)
-- [后端任务（完善中）](/docs/Backend/README.md)
+- [前端任务（完善中）](/docs/FrontEnd/README.md)
+- [后端任务（完善中）](/docs/BackEnd/README.md)
 
 
 
