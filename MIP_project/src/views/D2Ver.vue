@@ -1,12 +1,10 @@
 <template>
-    <div>
-        <h1>2D 视图 开发模板</h1>
-    </div>
-    <HelloWorld msg="在2D视图中复用HelloWorld组件"/>
+<h5> 2D 视图 开发中</h5>
+<a href="https://www.cornerstonejs.org/docs/category/getting-started">库访问连接</a>
 </template>
 
 <script setup>
-import HelloWorld from '../components/HelloWorld.vue';
+
 </script>
 
 <style scoped>
