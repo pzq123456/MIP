@@ -15,6 +15,7 @@
     "@cornerstonejs/tools": "^0.65.0",
     "dcmjs": "^0.29.6",
     "dicomweb-client": "^0.10.2",
+    "@element-plus/icons-vue": "^2.1.0",
     "element-plus": "^2.3.3",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
