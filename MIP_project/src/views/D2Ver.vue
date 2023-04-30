@@ -4,13 +4,12 @@
 <a href="https://cn.vuejs.org/api/composition-api-lifecycle"> Vue 文档</a>
 <a href="https://juejin.cn/post/7132361845796503566">教程</a>
 
+
 <div id="content"></div>
-
-
-
 </template>
 
 <script setup>
+
 import { RenderingEngine, Enums } from '@cornerstonejs/core';
 import {
   initDemo,
@@ -26,16 +25,6 @@ import {
 
 const { ViewportType } = Enums;
 
-
-
-
-
-
-
-
-// using Vue ref to get the element and pass it to cornerstone
-// get the element after the component is mounted
-
 onMounted(() => {
   // using ref to get 'content' element
   const content = ref(document.getElementById('content'));
@@ -47,7 +36,6 @@ onMounted(() => {
   content.value.appendChild(element);
   run(element);
 });
-
 
 
 /**

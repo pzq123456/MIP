@@ -1,37 +1,28 @@
 <template>
-  <div class="container">
-    <!-- 标题 -->
-    <div class="title">
-      <h2 style="color:#67C23A">最简单的demo</h2>
-    </div>
-    <div class="queryInput"></div>
-    <el-row>
-      <!-- 第一个列 -->
-      <el-col :span="12">
-        <!-- keyup.enter回车键触发事件 -->
-        
-          <el-input v-model="SearchVal" placeholder="按名称查询" class="input-with-select" @input="inputSearch" @keyup.enter="enterSearch">
-            <!-- 内嵌添加一个搜索按钮 -->
-            <!-- #append表示注释 -->
-            <template #append>
-              <el-button :icon="Search" @click="enterSearch"></el-button>
-            </template>
-          </el-input>
-      </el-col>
-      <!-- 第二列 -->
-      <el-col :span="30"  >
-        <el-button type="primary" @click="openAdd">添加</el-button>
-        <el-button type="danger" @click="handelDelList">删除多选</el-button>
-      </el-col>
-    </el-row>
-    </div>
+  <p>
+    问题及建议。
+    1. 表格可以插入空内容。（检查输入是否为空，并提示）
+    2. TypeScript 太麻烦，暂时不用。看看能不能，使用原生的js和vue3.0的语法。
+    3. 还需要一个模态对话框来详细显示信息。（暂时可以是空的）
+  </p>
+<h1 class="title" >表格式图</h1>
 
-    <div>
-    <el-table 
-    :data="tableData" 
-    style="width: 100%"
-    border height="300px"
-    @selection-change="handleSelectionChange"
+<div class="search_bar">
+  <el-input v-model="SearchVal" placeholder="按名称查询" class="input-with-select" @input="inputSearch" @keyup.enter="enterSearch">
+    <template #append>
+      <el-button :icon="Search" @click="enterSearch"></el-button>
+    </template>
+    </el-input>
+
+    <el-button plain type="info" @click="openAdd">添加</el-button>
+    <el-button plain type="danger" @click="handelDelList">删除多选</el-button>
+
+</div>
+  <div class="tableContainer">
+    <el-table
+      class="table"
+      :data="tableData" 
+      @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="120"  />
       <el-table-column fixed prop="date" v-model="form.date" label="Date" width="150" />
@@ -39,35 +30,41 @@
       <el-table-column prop="address" v-model="form.address" label="Address" width="600" />
       <el-table-column prop="order"  v-model="form.order" label="Order" width="120" />
       <el-table-column prop="id"  v-model="form.id" label="Id" width="120" />
-      <el-table-column fixed="right"  label="Operations" width="120">
+      <el-table-column fixed="right"  label="Operations" width="300">
+
         <template #default="scope">
           <el-button
-            link
-            type="primary"
-            size="large"
-            style="color: #F56C6C;"
+            plain
+            type="danger"
             @click.prevent="handleDelete(scope.row.id)"
           >
             移除
           </el-button>
           <!-- scope为一个对象，其中target属性包含了一个对象的所有信息  -->
           <el-button
-              link
+              plain
               type="primary"
-              size="large"
               @click.prevent="handleEdit(scope.$index,scope.row)"
             >
               编辑
             </el-button>
+
+            <el-button
+              plain
+              type="info"
+            >
+              详情
+            </el-button>
         </template>
+
       </el-table-column>
     </el-table>
     <el-button class="mt-4" style="width: 100%" @click="onAddItem"
       >添加项目
     </el-button>
 
-    <!-- 页码 -->
-    <el-pagination background layout="prev, pager, next" :total="total" @current-page="currentChange"/>
+    <!-- 页码
+    <el-pagination background layout="prev, pager, next" :total="total" @current-page="currentChange"/> -->
     
     <!-- <el-dialog> 
     </el-dialog> -->
@@ -265,27 +262,33 @@ const onAddItem = () => {
 
 <style scoped>
 .title {
-  height: 50%;
-  width: 50%;
+  /* background color  */
+  background-color: #40a0ff26;
+  /* text-align */
   text-align: center;
-  border-radius: 10px;
-  border-style: solid;
-  justify-content: center;
-  margin-left: 25%;
+  /* font-size */
+  font-size: 30px;
 }
-.el-input{
-  width: 400px;
-}
-.queryInput{
-  display: flex;
-  justify-content: space-between;
-  margin-bottom:40px ;
-}
+
 .input-with-select{
   display: flex;
+  justify-content: space-between;
+  width: 30%;
 }
-.container{
-  margin: 10px 0;
 
+
+.tableContainer{
+  height: 700px;
+}
+
+.table{
+  width: 100%;
+  height: 100%;
+  /* center self */
+}
+
+.search_bar{
+  display: flex;
+  width: 100%;
 }
 </style>
