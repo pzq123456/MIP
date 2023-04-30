@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
-import { tableV2CellProps } from "element-plus/es/components/table-v2/src/cell";
+
 
 
 defineProps<{ msg: string }>();
