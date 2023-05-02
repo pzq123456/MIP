@@ -1,13 +1,294 @@
 <template>
-    <div>
-        <h1>表格视图 用于渲染服务器上所有的数据</h1>
-    </div>
+  <p>
+    问题及建议。
+    1. 表格可以插入空内容。（检查输入是否为空，并提示）
+    2. TypeScript 太麻烦，暂时不用。看看能不能，使用原生的js和vue3.0的语法。
+    3. 还需要一个模态对话框来详细显示信息。（暂时可以是空的）
+  </p>
+<h1 class="title" >表格式图</h1>
+
+<div class="search_bar">
+  <el-input v-model="SearchVal" placeholder="按名称查询" class="input-with-select" @input="inputSearch" @keyup.enter="enterSearch">
+    <template #append>
+      <el-button :icon="Search" @click="enterSearch"></el-button>
+    </template>
+    </el-input>
+
+    <el-button plain type="info" @click="openAdd">添加</el-button>
+    <el-button plain type="danger" @click="handelDelList">删除多选</el-button>
+
+</div>
+  <div class="tableContainer">
+    <el-table
+      class="table"
+      :data="tableData" 
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column type="selection" width="120"  />
+      <el-table-column fixed prop="date" v-model="form.date" label="Date" width="150" />
+      <el-table-column prop="name" v-model="form.name" label="Name" width="120" />
+      <el-table-column prop="address" v-model="form.address" label="Address" width="600" />
+      <el-table-column prop="order"  v-model="form.order" label="Order" width="120" />
+      <el-table-column prop="id"  v-model="form.id" label="Id" width="120" />
+      <el-table-column fixed="right"  label="Operations" width="300">
+
+        <template #default="scope">
+          <el-button
+            plain
+            type="danger"
+            @click.prevent="handleDelete(scope.row.id)"
+          >
+            移除
+          </el-button>
+          <!-- scope为一个对象，其中target属性包含了一个对象的所有信息  -->
+          <el-button
+              plain
+              type="primary"
+              @click.prevent="handleEdit(scope.$index,scope.row)"
+            >
+              编辑
+            </el-button>
+
+            <el-button
+              plain
+              type="info"
+            >
+              详情
+            </el-button>
+        </template>
+
+      </el-table-column>
+    </el-table>
+    <el-button class="mt-4" style="width: 100%" @click="onAddItem"
+      >添加项目
+    </el-button>
+
+    <!-- 页码
+    <el-pagination background layout="prev, pager, next" :total="total" @current-page="currentChange"/> -->
+    
+    <!-- <el-dialog> 
+    </el-dialog> -->
+  </div>
+
+  <!-- 添加组件 -->
+  <!-- closeAdd和success为子组件向父组件传递过来的的事件 -->
+  <addDialog :is-show="isShow" :info="info"  @close-add="closeAdd"   @submit="handleSubmit" ></addDialog>
 </template>
 
-<script setup>
+<script lang="ts" setup>
+import { Search } from '@element-plus/icons-vue';
+import { ref,Ref} from 'vue';
+// 导入add.vue组件
+import addDialog from '../components/TableComs/addDialog.vue';
+import dayjs from 'dayjs'
+// 导入class库中的User类
+import User from '../class/User';
+import { da } from 'element-plus/es/locale';
+const now = new Date()
 
+/* 属性 */
+
+const tableData = ref([
+  {
+    date: '2016-05-01',
+    name: 'Tom1',
+    address: 'No. 189, Grove St, Los Angeles',
+    order: 0,
+    id: "1"
+  },
+  {
+    date: '2016-05-02',
+    name: 'Tom2',
+    address: 'No. 189, Grove St, Los Angeles',
+    order: 0,
+    id: "2"
+  },
+  {
+    date: '2016-05-03',
+    name: 'Tom3',
+    address: 'No. 189, Grove St, Los Angeles',
+    order: 0,
+    id: "3"
+  },
+])
+var tableDataCopy=Object.assign(tableData.value);
+// 初始化从子组件继承的prop属性
+const isShow=ref(false);
+const info = ref(<User>(new User));
+const form: Ref<User> = ref<User>({
+  id: "",
+  date: "",
+  name: "",
+  address: "",
+  order: 0
+})
+// 声明一个接收表单修改和添加的信息接收数组
+const tableForm= ref(<User>(new User));
+const total=ref(100);
+// 定义一个接收搜索框信息的定量
+const SearchVal=ref("");
+// 声明一个对话框类型
+const dialogType=ref("add");
+
+/* 方法 */
+
+// 搜索
+const enterSearch=()=>{
+  console.log(SearchVal);
+  // `filter()` 方法返回的是一个新的数组，不会改变原数组
+  if(SearchVal.value.length>0){
+    tableData.value = tableData.value.filter(item => item.name.match(SearchVal.value));
+  }
+  else{
+    tableData.value= tableDataCopy;
+  }
+}
+const inputSearch=()=>{
+  tableData.value = tableDataCopy;
+}
+
+// 关闭表单
+const closeAdd=()=>{
+  isShow.value=false;
+  info.value=new User();
+}
+
+// 检测变化
+const currentChange=(val:number)=>{
+  console.log(val);
+}
+
+// 获取子组件的form同步表单数据
+
+// 获取子组件表单同步的信息
+const handleSubmit = (data) => {
+  // 若为添加操作
+  if (dialogType.value === "add") {
+    tableData.value.push({
+      date: data.date,
+      name: data.name,
+      address: data.address,
+      order: data.order,
+      id: data.id
+    })
+  }
+  else {
+    // 若为编辑操作
+    // 1.获取到当前的这条索引
+    //  `item => item.id===tableForm.value.id`：这是一个箭头函数，表示对数组中的每个元素执行相同的操作。其中，
+    // `item` 表示数组中的每个元素，`item.id` 表示该元素的 `id` 属性值，
+    // `tableForm.value.id` 表示 `tableForm` 对象的 `id` 属性值。
+    let index=tableData.value.findIndex(item=>item.id===tableForm.value.id);
+    console.log(index);
+    // 2.编辑数据
+    tableData.value[index]=data;
+    // 3.清除用于存放编辑数据的数组
+     // console.log("formData为：", data)
+    tableForm.value = {
+      id: "",
+      date: "",
+      name: "",
+      address: "",
+      order: 0
+    }
+  }
+  isShow.value = false;
+}
+
+// 添加对话框
+const openAdd = () => {
+  isShow.value = true;
+  dialogType.value = "add";
+}
+
+// 编辑对话框
+const handleEdit=(index:number,row:User)=>{
+  // console.log("scope.index为： ", index);
+  // console.log("scope.row为： ", row);
+  info.value=row;
+  isShow.value=true;
+  dialogType.value="edit";
+  tableForm.value=row;
+  
+}
+
+// 移除
+const handleDelete = (id) => {
+  console.log(id);
+  // 根据索引值删除对应的表单数据
+  let index=tableData.value.findIndex(item=>item.id===id);
+  // 参数一表示索引值，参数二表示删除的个数
+  tableData.value.splice(index, 1);
+}
+
+// const multipleSelection=new Set();
+const  multipleSelection=ref([]);
+// 多选并获取选中的信息
+const handleSelectionChange = (val) => {
+  // console.log(val);
+  // multipleSelection.value=val;
+  // 获取选中的id值（或index）
+  multipleSelection.value=[];
+  for (let i = 0; i < val.length; i++) {
+    multipleSelection.value.push(val[i].id);
+  }
+  console.log(multipleSelection.value);
+}
+// 选中多个进行删除
+const handelDelList = () => {
+  // for(let i=0;i<multipleSelection.length;i++){
+  //   handleDelete(multipleSelection[i]);
+  // }
+  multipleSelection.value.forEach(function(id){
+    // console.log(id);
+    handleDelete(id);
+  }) 
+  multipleSelection.value=[];
+}
+
+// 添加项目
+const onAddItem = () => {
+  now.setDate(now.getDate() + 1)
+  tableData.value.push({
+    date: dayjs(now).format('YYYY-MM-DD'),
+    name: 'Tom',
+    address: 'No. 189, Grove St, Los Angeles',
+    order:0,
+    id: "0"
+  })
+}
 </script>
 
-<style lang="scss" scoped>
 
+<style scoped>
+.title {
+  /* background color  */
+  background-color: #40a0ff26;
+  /* text-align */
+  text-align: center;
+  /* font-size */
+  font-size: 30px;
+}
+
+.input-with-select{
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+
+
+.tableContainer{
+  height: 700px;
+}
+
+.table{
+  width: 100%;
+  height: 100%;
+  /* center self */
+}
+
+.search_bar{
+  display: flex;
+  width: 100%;
+}
 </style>
