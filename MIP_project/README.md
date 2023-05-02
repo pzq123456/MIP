@@ -13,6 +13,7 @@ cd MIP_project
 
 ```sh
 npm install
+npm install
 ```
 
 ### 打开开发服务器
