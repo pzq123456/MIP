@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div class="container">
     <!-- 标题 -->
     <div class="title">
@@ -70,15 +71,80 @@
           <el-button link type="primary" size="large" @click.prevent="handleEdit(scope.$index, scope.row)">
             编辑
           </el-button>
+=======
+  <p>
+    问题及建议。
+    1. 表格可以插入空内容。（检查输入是否为空，并提示）
+    2. TypeScript 太麻烦，暂时不用。看看能不能，使用原生的js和vue3.0的语法。
+    3. 还需要一个模态对话框来详细显示信息。（暂时可以是空的）
+  </p>
+<h1 class="title" >表格式图</h1>
+
+<div class="search_bar">
+  <el-input v-model="SearchVal" placeholder="按名称查询" class="input-with-select" @input="inputSearch" @keyup.enter="enterSearch">
+    <template #append>
+      <el-button :icon="Search" @click="enterSearch"></el-button>
+    </template>
+    </el-input>
+
+    <el-button plain type="info" @click="openAdd">添加</el-button>
+    <el-button plain type="danger" @click="handelDelList">删除多选</el-button>
+
+</div>
+  <div class="tableContainer">
+    <el-table
+      class="table"
+      :data="tableData" 
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column type="selection" width="120"  />
+      <el-table-column fixed prop="date" v-model="form.date" label="Date" width="150" />
+      <el-table-column prop="name" v-model="form.name" label="Name" width="120" />
+      <el-table-column prop="address" v-model="form.address" label="Address" width="600" />
+      <el-table-column prop="order"  v-model="form.order" label="Order" width="120" />
+      <el-table-column prop="id"  v-model="form.id" label="Id" width="120" />
+      <el-table-column fixed="right"  label="Operations" width="300">
+
+        <template #default="scope">
+          <el-button
+            plain
+            type="danger"
+            @click.prevent="handleDelete(scope.row.id)"
+          >
+            移除
+          </el-button>
+          <!-- scope为一个对象，其中target属性包含了一个对象的所有信息  -->
+          <el-button
+              plain
+              type="primary"
+              @click.prevent="handleEdit(scope.$index,scope.row)"
+            >
+              编辑
+            </el-button>
+
+            <el-button
+              plain
+              type="info"
+            >
+              详情
+            </el-button>
+>>>>>>> 07a4cf89ddeaf889d4c595f124d590fdb714b152
         </template>
+
       </el-table-column>
     </el-table>
     <el-button class="mt-4" style="width: 100%" @click="onAddItem">添加项目
     </el-button>
 
+<<<<<<< HEAD
     <!-- 页码 -->
     <el-pagination background layout="prev, pager, next" :total="total" @current-page="currentChange" />
 
+=======
+    <!-- 页码
+    <el-pagination background layout="prev, pager, next" :total="total" @current-page="currentChange"/> -->
+    
+>>>>>>> 07a4cf89ddeaf889d4c595f124d590fdb714b152
     <!-- <el-dialog> 
     </el-dialog> -->
   </div>
@@ -291,9 +357,11 @@ const onAddItem = () => {
 
 <style scoped>
 .title {
-  height: 50%;
-  width: 50%;
+  /* background color  */
+  background-color: #40a0ff26;
+  /* text-align */
   text-align: center;
+<<<<<<< HEAD
   border-radius: 10px;
   border-bottom: 1px solid #ccc;
   justify-content: center;
@@ -320,7 +388,32 @@ const onAddItem = () => {
 }
 .container {
   margin: 10px 0;
+=======
+  /* font-size */
+  font-size: 30px;
+}
 
+.input-with-select{
+  display: flex;
+  justify-content: space-between;
+  width: 30%;
+}
+>>>>>>> 07a4cf89ddeaf889d4c595f124d590fdb714b152
+
+
+.tableContainer{
+  height: 700px;
+}
+
+.table{
+  width: 100%;
+  height: 100%;
+  /* center self */
+}
+
+.search_bar{
+  display: flex;
+  width: 100%;
 }
 .el-input {
   width: 150px;

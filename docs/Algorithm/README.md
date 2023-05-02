@@ -165,7 +165,7 @@ loss:
   ``` bash
   # 验证模型
   %cd ~/PaddleSeg/contrib/MedicalSeg/
-  !python nnunet/single_fold_eval.py --config ~/configs/nnunet_fold0.yml \ # 这里改成自己的编号
+  !python nnunet/single_fold_eval.py --config ~/configs/nnunet_fold0.yml \  # 这里改成自己的编号
           --model_path output/cascade_lowres/fold0/iter_30000/model.pdparams --val_save_folder output/cascade_lowres_val \ # 这里改成自己的编号
           --precision fp16 --predict_next_stage
   ```
