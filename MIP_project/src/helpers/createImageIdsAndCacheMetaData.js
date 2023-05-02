@@ -31,100 +31,108 @@ export default async function createImageIdsAndCacheMetaData({
   wadoRsRoot,
   client = null,
 }) {
-  const SOP_INSTANCE_UID = '00080018';
-  const SERIES_INSTANCE_UID = '0020000E';
-  const MODALITY = '00080060';
+      
+      const SOP_INSTANCE_UID = '00080018';
+      const SERIES_INSTANCE_UID = '0020000E';
+      const MODALITY = '00080060';
 
-  const studySearchOptions = {
-    studyInstanceUID: StudyInstanceUID,
-    seriesInstanceUID: SeriesInstanceUID,
-  };
+      const studySearchOptions = {
+        studyInstanceUID: StudyInstanceUID,
+        seriesInstanceUID: SeriesInstanceUID,
+      };
 
-  client = client || new api.DICOMwebClient({ url: wadoRsRoot });
-  const instances = await client.retrieveSeriesMetadata(studySearchOptions);
-  const modality = instances[0][MODALITY].Value[0];
-  let imageIds = instances.map((instanceMetaData) => {
-    const SeriesInstanceUID = instanceMetaData[SERIES_INSTANCE_UID].Value[0];
-    const SOPInstanceUIDToUse =
-      SOPInstanceUID || instanceMetaData[SOP_INSTANCE_UID].Value[0];
+      client = client || new api.DICOMwebClient({ url: wadoRsRoot });
 
-    const prefix = 'wadors:';
+      const instances = await client.retrieveSeriesMetadata(studySearchOptions);
 
-    const imageId =
-      prefix +
-      wadoRsRoot +
-      '/studies/' +
-      StudyInstanceUID +
-      '/series/' +
-      SeriesInstanceUID +
-      '/instances/' +
-      SOPInstanceUIDToUse +
-      '/frames/1';
+      const modality = instances[0][MODALITY].Value[0];
 
-    cornerstoneDICOMImageLoader.wadors.metaDataManager.add(
-      imageId,
-      instanceMetaData
-    );
-    return imageId;
-  });
+      let imageIds = 
+      instances.map((instanceMetaData) => {
 
-  // if the image ids represent multiframe information, creates a new list with one image id per frame
-  // if not multiframe data available, just returns the same list given
-  imageIds = convertMultiframeImageIds(imageIds);
+        const SeriesInstanceUID = instanceMetaData[SERIES_INSTANCE_UID].Value[0];
+        const SOPInstanceUIDToUse =
+          SOPInstanceUID || instanceMetaData[SOP_INSTANCE_UID].Value[0];
 
-  imageIds.forEach((imageId) => {
-    let instanceMetaData =
-      cornerstoneDICOMImageLoader.wadors.metaDataManager.get(imageId);
+        const prefix = 'wadors:';
 
-    // It was using JSON.parse(JSON.stringify(...)) before but it is 8x slower
-    instanceMetaData = removeInvalidTags(instanceMetaData);
-
-    if (instanceMetaData) {
-      // Add calibrated pixel spacing
-      const metadata = DicomMetaDictionary.naturalizeDataset(instanceMetaData);
-      const pixelSpacing = getPixelSpacingInformation(metadata);
-
-      if (pixelSpacing) {
-        calibratedPixelSpacingMetadataProvider.add(imageId, {
-          rowPixelSpacing: parseFloat(pixelSpacing[0]),
-          columnPixelSpacing: parseFloat(pixelSpacing[1]),
-        });
-      }
-    }
-  });
-
-  // we don't want to add non-pet
-  // Note: for 99% of scanners SUV calculation is consistent bw slices
-  if (modality === 'PT') {
-    const InstanceMetadataArray = [];
-    imageIds.forEach((imageId) => {
-      const instanceMetadata = getPTImageIdInstanceMetadata(imageId);
-
-      // TODO: Temporary fix because static-wado is producing a string, not an array of values
-      // (or maybe dcmjs isn't parsing it correctly?)
-      // It's showing up like 'DECY\\ATTN\\SCAT\\DTIM\\RAN\\RADL\\DCAL\\SLSENS\\NORM'
-      // but calculate-suv expects ['DECY', 'ATTN', ...]
-      if (typeof instanceMetadata.CorrectedImage === 'string') {
-        instanceMetadata.CorrectedImage =
-          instanceMetadata.CorrectedImage.split('\\');
-      }
-
-      if (instanceMetadata) {
-        InstanceMetadataArray.push(instanceMetadata);
-      }
-    });
-    if (InstanceMetadataArray.length) {
-      const suvScalingFactors = calculateSUVScalingFactors(
-        InstanceMetadataArray
-      );
-      InstanceMetadataArray.forEach((instanceMetadata, index) => {
-        ptScalingMetaDataProvider.addInstance(
-          imageIds[index],
-          suvScalingFactors[index]
+        const imageId =
+          prefix +
+          wadoRsRoot +
+          '/studies/' +
+          StudyInstanceUID +
+          '/series/' +
+          SeriesInstanceUID +
+          '/instances/' +
+          SOPInstanceUIDToUse +
+          '/frames/1';
+          
+        cornerstoneDICOMImageLoader.wadors.metaDataManager.add(
+          imageId,
+          instanceMetaData
         );
-      });
-    }
-  }
 
-  return imageIds;
+        return imageId;
+      });
+
+
+      // if the image ids represent multiframe information, creates a new list with one image id per frame
+      // if not multiframe data available, just returns the same list given
+      imageIds = convertMultiframeImageIds(imageIds);
+
+      imageIds.forEach((imageId) => {
+        let instanceMetaData =
+          cornerstoneDICOMImageLoader.wadors.metaDataManager.get(imageId);
+
+        // It was using JSON.parse(JSON.stringify(...)) before but it is 8x slower
+        instanceMetaData = removeInvalidTags(instanceMetaData);
+
+        if (instanceMetaData) {
+          // Add calibrated pixel spacing
+          const metadata = DicomMetaDictionary.naturalizeDataset(instanceMetaData);
+          const pixelSpacing = getPixelSpacingInformation(metadata);
+
+          if (pixelSpacing) {
+            calibratedPixelSpacingMetadataProvider.add(imageId, {
+              rowPixelSpacing: parseFloat(pixelSpacing[0]),
+              columnPixelSpacing: parseFloat(pixelSpacing[1]),
+            });
+          }
+        }
+      });
+
+      // we don't want to add non-pet
+      // Note: for 99% of scanners SUV calculation is consistent bw slices
+      if (modality === 'PT') {
+        const InstanceMetadataArray = [];
+        imageIds.forEach((imageId) => {
+          const instanceMetadata = getPTImageIdInstanceMetadata(imageId);
+
+          // TODO: Temporary fix because static-wado is producing a string, not an array of values
+          // (or maybe dcmjs isn't parsing it correctly?)
+          // It's showing up like 'DECY\\ATTN\\SCAT\\DTIM\\RAN\\RADL\\DCAL\\SLSENS\\NORM'
+          // but calculate-suv expects ['DECY', 'ATTN', ...]
+          if (typeof instanceMetadata.CorrectedImage === 'string') {
+            instanceMetadata.CorrectedImage =
+              instanceMetadata.CorrectedImage.split('\\');
+          }
+
+          if (instanceMetadata) {
+            InstanceMetadataArray.push(instanceMetadata);
+          }
+        });
+        if (InstanceMetadataArray.length) {
+          const suvScalingFactors = calculateSUVScalingFactors(
+            InstanceMetadataArray
+          );
+          InstanceMetadataArray.forEach((instanceMetadata, index) => {
+            ptScalingMetaDataProvider.addInstance(
+              imageIds[index],
+              suvScalingFactors[index]
+            );
+          });
+        }
+      }
+
+      return imageIds;
 }

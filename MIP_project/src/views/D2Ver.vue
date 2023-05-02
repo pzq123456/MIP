@@ -19,11 +19,14 @@ import {
 
 import { 
   onMounted,
-  nextTick,
   ref,
 } from 'vue';
 
 const { ViewportType } = Enums;
+
+
+
+
 
 onMounted(() => {
   // using ref to get 'content' element
@@ -74,7 +77,8 @@ async function run(element) {
     renderingEngine.getViewport(viewportId)
   );
   // Define a stack containing a single image
-  const stack = [imageIds[0]];
+  const stack = [imageIds[10]];
+  console.log(imageIds[10]);
   // Set the stack on the viewport
   await viewport.setStack(stack);
   // Set the VOI of the stack

@@ -12,11 +12,11 @@ export default function initCornerstoneDICOMImageLoader() {
   cornerstoneDICOMImageLoader.external.cornerstone = cornerstone;
   cornerstoneDICOMImageLoader.external.dicomParser = dicomParser;
   cornerstoneDICOMImageLoader.configure({
-    useWebWorkers: true,
-    decodeConfig: {
-      convertFloatPixelDataToInt: false,
-      use16BitDataType: preferSizeOverAccuracy || useNorm16Texture,
-    },
+    useWebWorkers: false,
+    // decodeConfig: {
+    //   convertFloatPixelDataToInt: false,
+    //   use16BitDataType: preferSizeOverAccuracy || useNorm16Texture,
+    // },
   });
 
   let maxWebWorkers = 1;
