@@ -2,6 +2,8 @@ export default class User{
     id: string =""
     date: string =""
     name: string = ""
-    address: string = ""
-    order:number =0
+    description: string = ""
+    nmr: string = ""
+    device: string = ""
+    instances: number=0
 }
