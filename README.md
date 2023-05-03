@@ -132,3 +132,8 @@ graph BT
 
     124.220.5.235
     Abc123456  
+
+## gitlab 公共账号
+
+   1812673119@qq.com
+   kGwd.NscY7z6KJG
