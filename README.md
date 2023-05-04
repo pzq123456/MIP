@@ -1,3 +1,11 @@
+> Info:
+> - Our frontend project is the [MIP_project](https://github.com/pzq123456/MIP/tree/master/MIP_project) folder
+> - You can run it by the following command
+> - `npm install`
+> - `npm run dev`
+> - Thank you for your help!
+
+
 # A3-基于百度飞桨的 3D 医疗数据解析平台 SKDDX20 组
 > - 项目地址 https://github.com/pzq123456/MIP
 > - 软件杯 http://www.cnsoftbei.com/plus/view.php?aid=796
