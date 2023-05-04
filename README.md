@@ -3,6 +3,8 @@
 > - You can run it by the following command
 > - `npm install`
 > - `npm run dev`
+> - Then you can visit the following url
+> - http://127.0.0.1:5173/d2ver
 > - Thank you for your help!
 
 
