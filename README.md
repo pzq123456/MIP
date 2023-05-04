@@ -9,7 +9,7 @@
 
 
 # A3-基于百度飞桨的 3D 医疗数据解析平台 SKDDX20 组
-> - 项目地址 https://github.com/pzq123456/MIP
+
 > - 软件杯 http://www.cnsoftbei.com/plus/view.php?aid=796
 > - 打榜平台 https://aistudio.baidu.com/aistudio/competition/detail/889/0/introduction
 
