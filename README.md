@@ -7,7 +7,7 @@
 - [算法任务（完善中）](/docs/Algorithm/README.md)
 - [项目架构（完善中）](/docs/README.md)
 - [前端任务（完善中）](/docs/FrontEnd/README.md)
-- [后端任务（完善中）](/docs/BackEnd/README.md)
+- [后端任务（云开发环境 使用 GitLab 管理代码）](https://gitlab.com/pzq123456/backend_md)
 
 ## 赛事流程
 - `算法打榜`预选赛（截止2023年5月21，打榜赛，根据算法成绩决定晋级区域赛；5月31针对未晋级区域赛的同学，开展复活赛，仅考核软件，考核方式为提交软件演示录制视频即可，不答辩）要点:
@@ -130,5 +130,13 @@ graph BT
 
 ## 服务器信息
 
-    root@101.43.52.78
+    124.220.5.235
     Abc123456  
+
+## gitlab 公共账号
+```
+  1812673119@qq.com
+ ```
+ ```
+  kGwd.NscY7z6KJG
+```
