@@ -1,5 +1,15 @@
+> Info:
+> - Our frontend project is the [MIP_project](https://github.com/pzq123456/MIP/tree/master/MIP_project) folder
+> - You can run it by the following command
+> - `npm install`
+> - `npm run dev`
+> - Then you can visit the following url
+> - http://127.0.0.1:5173/d2ver
+> - Thank you for your help!
+
+
 # A3-基于百度飞桨的 3D 医疗数据解析平台 SKDDX20 组
-> - 项目地址 https://github.com/pzq123456/MIP
+
 > - 软件杯 http://www.cnsoftbei.com/plus/view.php?aid=796
 > - 打榜平台 https://aistudio.baidu.com/aistudio/competition/detail/889/0/introduction
 
@@ -7,7 +17,7 @@
 - [算法任务（完善中）](/docs/Algorithm/README.md)
 - [项目架构（完善中）](/docs/README.md)
 - [前端任务（完善中）](/docs/FrontEnd/README.md)
-- [后端任务（完善中）](/docs/BackEnd/README.md)
+- [后端任务（云开发环境 使用 GitLab 管理代码）](https://gitlab.com/pzq123456/backend_md)
 
 ## 赛事流程
 - `算法打榜`预选赛（截止2023年5月21，打榜赛，根据算法成绩决定晋级区域赛；5月31针对未晋级区域赛的同学，开展复活赛，仅考核软件，考核方式为提交软件演示录制视频即可，不答辩）要点:
@@ -111,24 +121,35 @@ graph BT
 
 - 成员信息
 ```
-    潘志清 18352874270 
-    于嘉烨 19506151951
-    韦立楠 16688089588
-    覃仕锋 18077287271
+潘志清 18352874270 
+于嘉烨 19506151951
+韦立楠 16688089588
+覃仕锋 18077287271
 ```
 
 - 老师信息
 ```
-    刘冰
-    13780686818
-    LB@sdust.edu.cn
-    计算机科学与工程学院，测绘与空间信息学院
-    智慧城市，GIS应用与开发
-    副教授
+刘冰
+13780686818
+LB@sdust.edu.cn
+计算机科学与工程学院，测绘与空间信息学院
+智慧城市，GIS应用与开发
+副教授
 ```
 
 
 ## 服务器信息
-
-    root@101.43.52.78
-    Abc123456  
+```
+root@124.220.5.235
+```
+```
+Abc123456  
+```
+## gitlab 公共账号
+```
+1812673119@qq.com
+```
+```
+kGwd.NscY7z6KJG
+```
+test
