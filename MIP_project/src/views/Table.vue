@@ -19,13 +19,13 @@
           <!-- 第二个列 -->
           <el-col :span="10">
             <!-- keyup.enter回车键触发事件 -->
-            <el-input  v-model="SearchVal" placeholder="按姓名查询" class="input-with-select" @input="inputSearch"
-              @keyup.enter="enterSearch">
+            <el-input  v-model="SearchNameVal" placeholder="按姓名查询" class="input-with-Name" :inputType="'inputName'" @input="inputSearch"
+              @keyup.enter="enterSearch_Name">
               <!-- <el-date-picker v-model="form.date" type="date" placeholder="请选择一个时间"  value-format="YYYY-MM-DD" ></el-date-picker> -->
               <!-- 内嵌添加一个搜索按钮 -->
               <!-- #append表示注释 -->
               <template #append>
-                <el-button :icon="Search" @click="enterSearch"></el-button>
+                <el-button :icon="Search" @click="enterSearch_Name"></el-button>
               </template>
             </el-input>
           </el-col>
@@ -34,16 +34,16 @@
         <div class="input-col">
               <el-col :span="10">
                 <span style="font-size: 15px;">磁共振</span>
-                <el-input v-model="SearchVal" placeholder="" class="input-with-select" @input="inputSearch"
-                  @keyup.enter="enterSearch"></el-input>
+                <el-input v-model="SearchNmrhVal" placeholder="" class="input-with-Nmr" @input="inputSearch"
+                  @keyup.enter="enterSearch_Nmr"></el-input>
               </el-col>
             </div>
         <!-- 第四列 -->
         <div class="input-col">
             <el-col :span="10">
               <span>描述</span>
-              <el-input  v-model="SearchVal" placeholder="" class="input-with-dsc" @input="inputSearch"
-                @keyup.enter="enterSearch" width="120"></el-input>
+              <el-input  v-model="SearchDesVal" placeholder="" class="input-with-dsc" @input="inputSearch"
+                @keyup.enter="enterSearch_dsc" width="120"></el-input>
             </el-col>
           </div>
       </el-row>
@@ -52,13 +52,14 @@
   </div>
 
   <div>
-    <el-table :data="tableData" style="width: 100%" height="480px"
-      :default-sort="{ prop: 'date,name', order: 'descending' }" @selection-change="handleSelectionChange">
+    <el-table :data="tableData" style="width: 100%" height="480px" :row-key="row => row.id"
+      :default-sort="{ prop: 'date,name', order: 'descending' }"     
+        @selection-change="handleSelectionChange" @row-click="openDetails" >
       <el-table-column type="selection" width="120" />
       <el-table-column fixed prop="date" v-model="form.date" label="检查日期" width="150" sortable />
-      <el-table-column prop="id" v-model="form.id" label="患者编号" width="120" />
+      <el-table-column prop="id" v-model="form.id" label="患者编号" width="120" sortable />
       <el-table-column prop="name" v-model="form.name" label="患者姓名" width="120" sortable />
-      <el-table-column prop="nmr" v-model="form.nmr" label="磁共振" width="120" />
+      <el-table-column prop="nmr" v-model="form.nmr" label="磁共振" width="120"  sortable/>
       <el-table-column prop="description" v-model="form.description" label="描述" width="600" />
       <el-table-column prop="instances" v-model="form.instances" label="实例" width="100" />
       <el-table-column fixed="right" label="Operations" width="120">
@@ -78,7 +79,7 @@
     </el-button>
 
     <!-- 页码 -->
-    <el-pagination background layout="prev, pager, next" :total="total" @current-page="currentChange" />
+    <el-pagination background  :page-sizes="page_sizes" layout="sizes,prev, pager, next" :total="total" :pager-count="11" @current-page="currentChange" />
 
     <!-- <el-dialog> 
     </el-dialog> -->
@@ -86,17 +87,22 @@
 
   <!-- 添加组件 -->
   <!-- closeAdd和success为子组件向父组件传递过来的的事件 -->
-  <addDialog :is-show="isShow" :info="info" @close-add="closeAdd" @submit="handleSubmit"></addDialog>
+  <!-- <addDialog :is-show="isShow" :info="info" @close-add="closeAdd" @submit="handleSubmit"></addDialog> -->
+  <detailDialog :is-show="isShow " :table-details="tableDetails" @close-details="closeDetails" ></detailDialog>
 </template>
 
 <script lang="ts" setup>
-import { Search } from '@element-plus/icons-vue';
+import { DocumentCopy, Search } from '@element-plus/icons-vue';
 import { ref, Ref } from 'vue';
 // 导入add.vue组件
 import addDialog from '../components/TableComs/addDialog.vue';
+import detailDialog from '../components/TableComs/detailDialog.vue';
+
+
 import dayjs from 'dayjs'
 // 导入class库中的User类
 import User from '../class/User';
+import Detail from '../class/Detail'
 import { da } from 'element-plus/es/locale';
 const now = new Date()
 
@@ -108,7 +114,7 @@ const tableData = ref([
     date: '2016-05-01',
     name: 'Tom2',
     description: 'No. 189, Grove St, Los Angeles',
-    nmr: "TCGA-50-5072",
+    nmr: "TCGA-50-5073",
     device: "纳米",
     id: '1',
     instances:0
@@ -117,23 +123,32 @@ const tableData = ref([
     date: '2016-05-02',
     name: 'Tom1',
     description: 'No. 189, Grove St, Los Angeles',
-    nmr: "TCGA-50-5072",
+    nmr: "TCGA-50-5074",
     device: "纳米",
     id: '2',
-    instances: 0
+    instances: 0,
   },
   {
     date: '2016-05-03',
     name: 'Tom3',
     description: 'No. 189, Grove St, Los Angeles',
-    nmr: "TCGA-50-5072",
+    nmr: "TCGA-50-5075",
     device: "纳米",
     id:'3',
     instances: 0
 
   },
+  {
+    date: '2016-05-01',
+    name: 'Army',
+    description: 'No. 189, Grove St, Los Angeles',
+    nmr: "TCGA-50-5073",
+    device: "纳米",
+    id: '1',
+    instances: 0
+  },
 ])
-var tableDataCopy = Object.assign(tableData.value);
+
 // 初始化从子组件继承的prop属性
 const isShow = ref(false);
 const info = ref(<User>(new User));
@@ -144,37 +159,128 @@ const form: Ref<User> = ref<User>({
   description: "",
   nmr: "",
   device: "",
-  instances : 0
+  instances: 0
 })
+// const inputName=ref("");
+// 细节信息
+const tableDetails = ref([
+  {
+    description: "Body 3.0 CE",
+    series: "1",
+    device: "CT",
+    instances: 0
+  }, {
+    description: "Body 3.0 CE",
+    series: "1",
+    device: "CT",
+    instances: 0
+  }
+])
+
 // 声明一个接收表单修改和添加的信息接收数组
 const tableForm = ref(<User>(new User));
 const total = ref(100);
+const page_sizes = ref(10);
 // 定义一个接收搜索框信息的定量
-const SearchVal = ref("");
+const SearchNameVal = ref("");
+const SearchNmrhVal = ref("");
+const SearchDesVal = ref("");
 // 声明一个对话框类型
 const dialogType = ref("add");
+// 拷贝表格信息，用于空信息输入框查询后回溯之前表格信息
+var tableDataCopy = Object.assign(tableData.value);
+// const inputType=ref("name");
+
+
 
 /* 方法 */
 
+// 实现detailDialog组件的emit方法
+const openDetails=()=>{
+  isShow.value = true;
+}
 // 搜索
-const enterSearch = () => {
-  console.log(SearchVal);
+// const enterSearch_Name=()=>{
+//   console.log(SearchNameVal);
+//   enterSearch(SearchNameVal);
+// }
+// const enterSearch_Nmr = () => {
+//   console.log(SearchNmrhVal);
+//   enterSearch(SearchNmrhVal);
+// }
+// const enterSearch_dsc = () => {
+//   console.log(SearchDesVal);
+//   enterSearch(SearchDesVal);
+// }
+const enterSearch_Name = () => {
+  // var inputName=document.getElementsByClassName('input-with-Name');
+  // const inputName = document.querySelector('input-with-Name');
+  // let type_name=inputName.getAttribute('inputType');
+  // const input = document.querySelector('input-with-Name');
+  // const customValue = input.dataset.customAttribute;
+  
+  // document.getElementById().getas1
+  // if(type_name==='inputName')
+  // console.log(SearchVal);
   // `filter()` 方法返回的是一个新的数组，不会改变原数组
-  if (SearchVal.value.length > 0) {
-    tableData.value = tableData.value.filter(item => (item.name).toLowerCase().match(SearchVal.value.toLowerCase()));
+  if (SearchNameVal.value.length > 0) {
+    tableData.value = tableData.value.filter(item => (item.name).toLowerCase().match(SearchNameVal.value.toLowerCase()));
   }
   else {
     tableData.value = tableDataCopy;
   }
 }
-const inputSearch = () => {
-  tableData.value = tableDataCopy;
+const enterSearch_Nmr = () => {
+  // var inputName=document.getElementsByClassName('input-with-Name');
+  // const inputName = document.querySelector('input-with-Name');
+  // let type_name=inputName.getAttribute('inputType');
+  // const input = document.querySelector('input-with-Name');
+  // const customValue = input.dataset.customAttribute;
+
+  // document.getElementById().getas1
+  // if(type_name==='inputName')
+  // console.log(SearchVal);
+  // `filter()` 方法返回的是一个新的数组，不会改变原数组
+  if (SearchNmrhVal.value.length > 0) {
+    tableData.value = tableData.value.filter(item => (item.nmr).toLowerCase().match(SearchNmrhVal.value.toLowerCase()));
+  }
+  else {
+    tableData.value = tableDataCopy;
+  }
+}
+const enterSearch_dsc = () => {
+  // var inputName=document.getElementsByClassName('input-with-Name');
+  // const inputName = document.querySelector('input-with-Name');
+  // let type_name=inputName.getAttribute('inputType');
+  // const input = document.querySelector('input-with-Name');
+  // const customValue = input.dataset.customAttribute;
+
+  // document.getElementById().getas1
+  // if(type_name==='inputName')
+  // console.log(SearchVal);
+  // `filter()` 方法返回的是一个新的数组，不会改变原数组
+  if (SearchDesVal.value.length > 0) {
+    tableData.value = tableData.value.filter(item => (item.description).toLowerCase().match(SearchDesVal.value.toLowerCase()));
+  }
+  else {
+    tableData.value = tableDataCopy;
+  }
 }
 
-// 关闭表单
-const closeAdd = () => {
+const inputSearch = () => {
+    tableData.value = tableDataCopy;
+}
+// const inputSearch2 = () => {
+//   tableData.value = tableDataCopy;
+// }
+// const inputSearch3 = () => {
+//   tableData.value = tableDataCopy;
+// }
+
+// 关闭细节对话框
+const closeDetails = () => {
   isShow.value = false;
-  info.value = new User();
+  // info.value = new User();
 }
 
 // 检测变化
@@ -274,7 +380,7 @@ const handelDelList = () => {
   multipleSelection.value = [];
 }
 
-// 添加项目
+// 添加测试项目
 const onAddItem = () => {
   now.setDate(now.getDate() + 1)
   tableData.value.push({
@@ -287,6 +393,7 @@ const onAddItem = () => {
     instances:0
   })
 }
+
 </script>
 
 
@@ -313,9 +420,9 @@ const onAddItem = () => {
   align-items: center;
   /* width: 900px; */
 }
-.queryInput > .el-row > .input-col{
-  /* padding: 0 50px; */
-  margin: 0 50px;
+.input-col{
+  padding: 0 50px;
+  /* margin: 0 50px; */
   box-sizing: border-box;
   /* width: 200px; */
   
@@ -343,7 +450,8 @@ const onAddItem = () => {
   height: 30px;
 }
 .input-with-dsc{
-width: 300px;
+width: 350px;
   height: 30px;
 }
+
 </style>

@@ -1,6 +1,15 @@
 <template>
     <!-- $emit将 子组件的自定义的关闭函数发射给父组件，让父组件应用这个关闭事件来实现关闭对话框 -->
-    <el-dialog v-model="dialogVisable" :title="info.name ? '修改' : '新增'" width="30%" @close="$emit('closeAdd')">
+    <!-- draggable可拖拽 -->
+    <el-dialog v-model="dialogVisable" :title="info.name ? '修改' : '新增'"  draggable  width="60%" @close="$emit('closeAdd')">
+        <el-row class="mb-4">
+        <el-button>Default</el-button>
+        <el-button type="primary">Primary</el-button>
+        <el-button type="success">Success</el-button>
+        <el-button type="info">Info</el-button>
+        <el-button type="warning">Warning</el-button>
+        <el-button type="danger">Danger</el-button>
+      </el-row>
         <!-- 添加表单 -->
         <el-form>
             <!-- 第一个表单 -->
