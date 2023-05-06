@@ -1,13 +1,3 @@
-> Info:
-> - Our frontend project is the [MIP_project](https://github.com/pzq123456/MIP/tree/master/MIP_project) folder
-> - You can run it by the following command
-> - `npm install`
-> - `npm run dev`
-> - Then you can visit the following url
-> - http://127.0.0.1:5173/d2ver
-> - Thank you for your help!
-
-
 # A3-基于百度飞桨的 3D 医疗数据解析平台 SKDDX20 组
 
 > - 软件杯 http://www.cnsoftbei.com/plus/view.php?aid=796
@@ -105,38 +95,35 @@ graph BT
 - `pydoc`：文档生成工具
 
 ### 技术栈
-- `python`：后端开发语言
-- * `flask`：后端框架(接口封装)
-- * `paddle`：飞桨框架(算法)
-- * `数据库操作库`：数据库也可能用js写
-- `WebDicom Sever`：Dicoms数据库(Orthanc...)
-- `Radis`：缓存数据库(用以实现进度条等功能)
+- 后端
+  - `python`：后端开发语言
+      * `flask`：后端框架(接口封装)
+      * `paddle`：飞桨框架(算法)
+  - `Radis`：缓存数据库(用以实现进度条等功能)
+  - `sqlite`：关系型数据库(用以存储用户信息)
 - `javascript`：前端开发语言
-- * `vue`：前端框架
-- * `three.js`：3D可视化库
-- * `cornerstone`：2D可视化库
-- ...
+    * `vue`：前端框架
+    * `cornerstone`：2D可视化（三视图）及量测、分割等功能
+    * `vtk.js`：3D可视化库
 
 ## 信息
 
 - 成员信息
-```
-潘志清 18352874270 
-于嘉烨 19506151951
-韦立楠 16688089588
-覃仕锋 18077287271
-```
-
+    ```
+    潘志清 18352874270 
+    于嘉烨 19506151951
+    韦立楠 16688089588
+    覃仕锋 18077287271
+    ```
 - 老师信息
-```
-刘冰
-13780686818
-LB@sdust.edu.cn
-计算机科学与工程学院，测绘与空间信息学院
-智慧城市，GIS应用与开发
-副教授
-```
-
+    ```
+    刘冰
+    13780686818
+    LB@sdust.edu.cn
+    计算机科学与工程学院，测绘与空间信息学院
+    智慧城市，GIS应用与开发
+    副教授
+    ```
 
 ## 服务器信息
 ```
@@ -152,4 +139,3 @@ Abc123456
 ```
 kGwd.NscY7z6KJG
 ```
-test
