@@ -139,3 +139,4 @@ Abc123456
 ```
 kGwd.NscY7z6KJG
 ```
+https://github.com/Project-MONAI/model-zoo/tree/dev/models/swin_unetr_btcv_segmentation
