@@ -10,9 +10,9 @@
           <span>检索日期范围</span>
           <!-- 第一个列 -->
           <el-col :span="10">
-            <el-date-picker v-model="value2" type="daterange" unlink-panels range-separator="|" start-placeholder="开始日期"
-              end-placeholder="结束日期" />
-          </el-col>
+            <el-date-picker v-model="SearchDate_val" type="daterange" unlink-panels range-separator="|" start-placeholder="开始日期"
+              end-placeholder="结束日期"  @change="enterSearch_Date" />
+            </el-col>
         </div>
         <div class="input-col">
           <span>检索患者姓名</span>
@@ -25,7 +25,7 @@
               <!-- 内嵌添加一个搜索按钮 -->
               <!-- #append表示注释 -->
               <template #append>
-                <el-button :icon="Search" @click="enterSearch_Name"></el-button>
+                <el-button :icon="Search" type="primary" @click="enterSearch_Date"></el-button>
               </template>
             </el-input>
           </el-col>
@@ -52,9 +52,9 @@
   </div>
 
   <div>
-    <el-table :data="tableData" style="width: 100%" height="480px" :row-key="row => row.id"
+    <el-table :data="currentTableData" style="width: 100%" height="480px" :row-key="row => row.id"
       :default-sort="{ prop: 'date,name', order: 'descending' }"     
-        @selection-change="handleSelectionChange" @row-click="openDetails" >
+        @selection-change="handleSelectionChange" @row-click="openDetails"  >
       <el-table-column type="selection" width="120" />
       <el-table-column fixed prop="date" v-model="form.date" label="检查日期" width="150" sortable />
       <el-table-column prop="id" v-model="form.id" label="患者编号" width="120" sortable />
@@ -64,9 +64,9 @@
       <el-table-column prop="instances" v-model="form.instances" label="实例" width="100" />
       <el-table-column fixed="right" label="Operations" width="120">
         <template #default="scope">
-          <el-button link type="primary" size="large" style="color: #F56C6C;" @click.prevent="handleDelete(scope.row.id)">
+          <!-- <el-button link type="primary" size="large" style="color: #F56C6C;" @click.prevent="handleDelete(scope.row.id)">
             移除
-          </el-button>
+          </el-button> -->
           <!-- scope为一个对象，其中target属性包含了一个对象的所有信息  -->
           <el-button link type="primary" size="large" @click.prevent="handleEdit(scope.$index, scope.row)">
             编辑
@@ -79,8 +79,10 @@
     </el-button>
 
     <!-- 页码 -->
-    <el-pagination background  :page-sizes="page_sizes" layout="sizes,prev, pager, next" :total="total" :pager-count="11" @current-page="currentChange" />
-
+    <!-- current-change事件在页码发生变化时，触发该事件时，先自动把：current-page绑定的页码数据作为参数 -->
+    <el-pagination background  :current-page="currentPage" :page-size="pageSize " :total="tableData.length"  
+    layout="prev, pager, next"
+    @current-change="handleCurrentChange"/>
     <!-- <el-dialog> 
     </el-dialog> -->
   </div>
@@ -94,6 +96,9 @@
 <script lang="ts" setup>
 import { DocumentCopy, Search } from '@element-plus/icons-vue';
 import { ref, Ref } from 'vue';
+// 引用moment库
+import moment from 'moment';
+
 // 导入add.vue组件
 import addDialog from '../components/TableComs/addDialog.vue';
 import detailDialog from '../components/TableComs/detailDialog.vue';
@@ -103,15 +108,15 @@ import dayjs from 'dayjs'
 // 导入class库中的User类
 import User from '../class/User';
 import Detail from '../class/Detail'
-import { da } from 'element-plus/es/locale';
+// import { da, ta } from 'element-plus/es/locale';
 const now = new Date()
 
-const value2 = ref('')
+const SearchDate_val = ref('')
 /* 属性 */
 
 const tableData = ref([
   {
-    date: '2016-05-01',
+    date: '2023-05-10',
     name: 'Tom2',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
@@ -120,7 +125,7 @@ const tableData = ref([
     instances:0
   },
   {
-    date: '2016-05-02',
+    date: '2023-05-01',
     name: 'Tom1',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5074",
@@ -129,7 +134,7 @@ const tableData = ref([
     instances: 0,
   },
   {
-    date: '2016-05-03',
+    date: '2023-05-30',
     name: 'Tom3',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5075",
@@ -139,7 +144,61 @@ const tableData = ref([
 
   },
   {
-    date: '2016-05-01',
+    date: '2023-05-05',
+    name: 'Army',
+    description: 'No. 189, Grove St, Los Angeles',
+    nmr: "TCGA-50-5073",
+    device: "纳米",
+    id: '1',
+    instances: 0
+  },
+  {
+    date: '2023-05-19',
+    name: 'Army',
+    description: 'No. 189, Grove St, Los Angeles',
+    nmr: "TCGA-50-5073",
+    device: "纳米",
+    id: '1',
+    instances: 0
+  },
+  {
+    date: '2023-05-13',
+    name: 'Army',
+    description: 'No. 189, Grove St, Los Angeles',
+    nmr: "TCGA-50-5073",
+    device: "纳米",
+    id: '1',
+    instances: 0
+  },
+  {
+    date: '2023-05-14',
+    name: 'Army',
+    description: 'No. 189, Grove St, Los Angeles',
+    nmr: "TCGA-50-5073",
+    device: "纳米",
+    id: '1',
+    instances: 0
+  },
+  {
+    date: '2023-05-18',
+    name: 'Army',
+    description: 'No. 189, Grove St, Los Angeles',
+    nmr: "TCGA-50-5073",
+    device: "纳米",
+    id: '1',
+    instances: 0
+  },
+  {
+    date: '2023-05-06',
+    name: 'Army',
+    description: 'No. 189, Grove St, Los Angeles',
+    nmr: "TCGA-50-5073",
+    device: "纳米",
+    id: '1',
+    instances: 0
+  },
+  {
+    date: '2023-05-08',
     name: 'Army',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
@@ -179,8 +238,16 @@ const tableDetails = ref([
 
 // 声明一个接收表单修改和添加的信息接收数组
 const tableForm = ref(<User>(new User));
-const total = ref(100);
-const page_sizes = ref(10);
+// const total = ref(100);
+// const page_sizes = ref(10);
+// const pagination=ref({
+//   currentPage: 1,
+//   pageSize: 10,
+// })
+const currentPage=ref(1);
+const pageSize=ref(10);
+// 记录当前页面的数据
+const currentTableData=ref([]);
 // 定义一个接收搜索框信息的定量
 const SearchNameVal = ref("");
 const SearchNmrhVal = ref("");
@@ -199,83 +266,80 @@ var tableDataCopy = Object.assign(tableData.value);
 const openDetails=()=>{
   isShow.value = true;
 }
-// 搜索
-// const enterSearch_Name=()=>{
-//   console.log(SearchNameVal);
-//   enterSearch(SearchNameVal);
-// }
-// const enterSearch_Nmr = () => {
-//   console.log(SearchNmrhVal);
-//   enterSearch(SearchNmrhVal);
-// }
-// const enterSearch_dsc = () => {
-//   console.log(SearchDesVal);
-//   enterSearch(SearchDesVal);
-// }
+
+/*-----------------分页与表格联系------------------- */
+// 表格与分页建立联系(没问题)
+const handleCurrentChange=(newPage)=>{
+  currentPage.value=newPage;
+  // getTableData(currentPage.value);
+  getTableData();
+}
+const getTableData =()=> {
+  // 根据新的页码计算出 Table 的起始索引和结束索引
+  const startIndex = (currentPage.value - 1) * pageSize.value;
+  const endIndex = startIndex + pageSize.value;
+  // 获取对应的 Table 数据
+  // 在 `handleCurrentChange` 方法中，根据新的页码计算出 Table 的起始索引和结束索引，
+  // 然后使用 `Array.prototype.slice()` 方法获取对应的 Table 数据，并将其赋值给组件中的 `currentTableData` 数据。
+  // 即截取 根据页码大小获取到的 table中的索引范围
+  currentTableData.value = tableData.value.slice(startIndex, endIndex);
+  console.log(currentTableData)
+}
+// 初始化第一页的表格数据
+getTableData();
+
+/*------------------------搜索--------------------------- */
+console.log(SearchDate_val);
+const enterSearch_Date=()=>{
+  if (!SearchDate_val.value) {
+    currentTableData.value = tableDataCopy;
+  }
+  else {
+    let filteredData = tableData.value.filter(item => {
+      // 给日期进行格式化
+      let date = moment(item.date, 'YYYY-MM-DD');
+      let stDate=SearchDate_val.value[0];
+      let enDate=SearchDate_val.value[1];
+      let sDate = moment(stDate, 'YYYY-MM-DD');
+      let eDate = moment(enDate, 'YYYY-MM-DD');
+      return date.isBetween(sDate, eDate, null, '[]');
+    })
+    currentTableData.value = filteredData;
+  }
+
+}
+
 const enterSearch_Name = () => {
-  // var inputName=document.getElementsByClassName('input-with-Name');
-  // const inputName = document.querySelector('input-with-Name');
-  // let type_name=inputName.getAttribute('inputType');
-  // const input = document.querySelector('input-with-Name');
-  // const customValue = input.dataset.customAttribute;
-  
-  // document.getElementById().getas1
-  // if(type_name==='inputName')
-  // console.log(SearchVal);
   // `filter()` 方法返回的是一个新的数组，不会改变原数组
   if (SearchNameVal.value.length > 0) {
-    tableData.value = tableData.value.filter(item => (item.name).toLowerCase().match(SearchNameVal.value.toLowerCase()));
+    currentTableData.value = tableData.value.filter(item => (item.name).toLowerCase().match(SearchNameVal.value.toLowerCase()));
   }
   else {
-    tableData.value = tableDataCopy;
+    currentTableData.value = tableDataCopy;
   }
 }
+
 const enterSearch_Nmr = () => {
-  // var inputName=document.getElementsByClassName('input-with-Name');
-  // const inputName = document.querySelector('input-with-Name');
-  // let type_name=inputName.getAttribute('inputType');
-  // const input = document.querySelector('input-with-Name');
-  // const customValue = input.dataset.customAttribute;
-
-  // document.getElementById().getas1
-  // if(type_name==='inputName')
-  // console.log(SearchVal);
-  // `filter()` 方法返回的是一个新的数组，不会改变原数组
   if (SearchNmrhVal.value.length > 0) {
-    tableData.value = tableData.value.filter(item => (item.nmr).toLowerCase().match(SearchNmrhVal.value.toLowerCase()));
+    currentTableData.value = tableData.value.filter(item => (item.nmr).toLowerCase().match(SearchNmrhVal.value.toLowerCase()));
   }
   else {
-    tableData.value = tableDataCopy;
+    currentTableData.value = tableDataCopy;
   }
 }
-const enterSearch_dsc = () => {
-  // var inputName=document.getElementsByClassName('input-with-Name');
-  // const inputName = document.querySelector('input-with-Name');
-  // let type_name=inputName.getAttribute('inputType');
-  // const input = document.querySelector('input-with-Name');
-  // const customValue = input.dataset.customAttribute;
 
-  // document.getElementById().getas1
-  // if(type_name==='inputName')
-  // console.log(SearchVal);
-  // `filter()` 方法返回的是一个新的数组，不会改变原数组
+const enterSearch_dsc = () => {
   if (SearchDesVal.value.length > 0) {
-    tableData.value = tableData.value.filter(item => (item.description).toLowerCase().match(SearchDesVal.value.toLowerCase()));
+    currentTableData.value = tableData.value.filter(item => (item.description).toLowerCase().match(SearchDesVal.value.toLowerCase()));
   }
   else {
-    tableData.value = tableDataCopy;
+    currentTableData.value = tableDataCopy;
   }
 }
 
 const inputSearch = () => {
-    tableData.value = tableDataCopy;
+    currentTableData.value = tableDataCopy;
 }
-// const inputSearch2 = () => {
-//   tableData.value = tableDataCopy;
-// }
-// const inputSearch3 = () => {
-//   tableData.value = tableDataCopy;
-// }
 
 // 关闭细节对话框
 const closeDetails = () => {
@@ -284,9 +348,9 @@ const closeDetails = () => {
 }
 
 // 检测变化
-const currentChange = (val: number) => {
-  console.log(val);
-}
+// const currentChange = (val: number) => {
+//   console.log(val);
+// }
 
 // 获取子组件的form同步表单数据
 
@@ -384,7 +448,7 @@ const handelDelList = () => {
 const onAddItem = () => {
   now.setDate(now.getDate() + 1)
   tableData.value.push({
-    date: '2016-05-02',
+    date: '2023-05-12',
     name: 'Tom2',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5072",
@@ -392,6 +456,7 @@ const onAddItem = () => {
     id: '2',
     instances:0
   })
+  // console.log(currentPage.value)
 }
 
 </script>
