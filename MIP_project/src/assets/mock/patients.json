@@ -1,0 +1,76 @@
+{
+    "type": "list",
+    "name": "patients",
+    "fields": [
+      {
+        "patient_name": "Alice",
+        "patient_id": "001",
+        "patient_sex": "female",
+        "patient_age": "27",
+        "patient_birthdate": "1994-08-11"
+      },
+      {
+        "patient_name": "Bob",
+        "patient_id": "002",
+        "patient_sex": "male",
+        "patient_age": "35",
+        "patient_birthdate": "1986-03-28"
+      },
+      {
+        "patient_name": "Charlene",
+        "patient_id": "003",
+        "patient_sex": "female",
+        "patient_age": "41",
+        "patient_birthdate": "1980-12-01"
+      },
+      {
+        "patient_name": "David",
+        "patient_id": "004",
+        "patient_sex": "male",
+        "patient_age": "49",
+        "patient_birthdate": "1973-05-23"
+      },
+      {
+        "patient_name": "Emily",
+        "patient_id": "005",
+        "patient_sex": "female",
+        "patient_age": "18",
+        "patient_birthdate": "2003-02-14"
+      },
+      {
+        "patient_name": "Frank",
+        "patient_id": "006",
+        "patient_sex": "male",
+        "patient_age": "29",
+        "patient_birthdate": "1992-11-05"
+      },
+      {
+        "patient_name": "Gabriella",
+        "patient_id": "007",
+        "patient_sex": "female",
+        "patient_age": "62",
+        "patient_birthdate": "1959-06-17"
+      },
+      {
+        "patient_name": "Henry",
+        "patient_id": "008",
+        "patient_sex": "male",
+        "patient_age": "46",
+        "patient_birthdate": "1975-09-30"
+      },
+      {
+        "patient_name": "Isabella",
+        "patient_id": "009",
+        "patient_sex": "female",
+        "patient_age": "23",
+        "patient_birthdate": "1998-12-25"
+      },
+      {
+        "patient_name": "Jacob",
+        "patient_id": "010",
+        "patient_sex": "male",
+        "patient_age": "52",
+        "patient_birthdate": "1969-04-03"
+      }
+    ]
+  }
