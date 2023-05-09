@@ -138,6 +138,6 @@ root@124.220.5.235
 1812673119@qq.com
 ```
 ```
-kGwd.NscY7z6KJG
+9Lp57-P.67cPRZ8
 ```
 https://github.com/Project-MONAI/model-zoo/tree/dev/models/swin_unetr_btcv_segmentation
