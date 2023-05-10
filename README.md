@@ -141,3 +141,5 @@ root@124.220.5.235
 9Lp57-P.67cPRZ8
 ```
 https://github.com/Project-MONAI/model-zoo/tree/dev/models/swin_unetr_btcv_segmentation
+## WebDicom 服务器地址
+http://124.220.5.235:8042/dicom-web/studies
