@@ -131,13 +131,15 @@ graph BT
 root@124.220.5.235
 ```
 ```
-Abc123456  
+1DB5m3AHHjf6d6UhYT8Z1Bw
 ```
 ## gitlab 公共账号
 ```
 1812673119@qq.com
 ```
 ```
-kGwd.NscY7z6KJG
+9Lp57-P.67cPRZ8
 ```
 https://github.com/Project-MONAI/model-zoo/tree/dev/models/swin_unetr_btcv_segmentation
+## WebDicom 服务器地址
+http://124.220.5.235:8042/dicom-web/studies
