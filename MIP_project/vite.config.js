@@ -32,7 +32,7 @@ export default defineConfig({
     //
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://124.220.5.235:8042/dicom-web/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
