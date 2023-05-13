@@ -32,6 +32,7 @@ import {
 const {
   ToolGroupManager,
   TrackballRotateTool,
+  ZoomTool,
   Enums: csToolsEnums,
 } = cornerstoneTools;
 
@@ -105,6 +106,7 @@ async function run(element1) {
 
   // Add tools to Cornerstone3D
   cornerstoneTools.addTool(TrackballRotateTool);
+  cornerstoneTools.addTool(ZoomTool);
 
   // Define a tool group, which defines how mouse events map to tool commands for
   // Any viewport using the group
@@ -114,6 +116,9 @@ async function run(element1) {
   toolGroup.addTool(TrackballRotateTool.toolName, {
     configuration: { volumeId },
   });
+  toolGroup.addTool(ZoomTool.toolName, {
+    configuration: { volumeId },
+  });
 
   // Set the initial state of the tools, here we set one tool active on left click.
   // This means left click will draw that tool.
@@ -121,6 +126,15 @@ async function run(element1) {
     bindings: [
       {
         mouseButton: MouseBindings.Primary, // Left Click
+      },
+    ],
+  });
+
+
+  toolGroup.setToolActive(ZoomTool.toolName, {
+    bindings: [
+      {
+        mouseButton: MouseBindings.Secondary, // Right Click
       },
     ],
   });
