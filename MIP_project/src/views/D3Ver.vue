@@ -2,6 +2,7 @@
     <div>
         <h1>3D 视图 开发模板</h1>
     </div>
+    <div id="demo-toolbar"></div>
     <div id="content" ></div>
 </template>
 
@@ -13,223 +14,174 @@ import {
   ref,
 } from 'vue';
 import {
-  RenderingEngine,
+  CONSTANTS,
   Enums,
+  RenderingEngine,
   setVolumesForViewports,
+  utilities,
   volumeLoader,
 } from '@cornerstonejs/core';
-import {
-  initDemo,
-  createImageIdsAndCacheMetaData,
-} from '../helpers';
 import * as cornerstoneTools from '@cornerstonejs/tools';
-    const {
-        SegmentationDisplayTool,
-        ToolGroupManager,
-        Enums: csToolsEnums,
-        segmentation,
-    } = cornerstoneTools;
-    const { ViewportType } = Enums;
+import {
+  addDropdownToToolbar,
+  createImageIdsAndCacheMetaData,
+  initDemo,
+  setTitleAndDescription,
+} from '../helpers';
 
-    // Define a unique id for the volume
-    const volumeName = 'CT_VOLUME_ID'; // Id of the volume less loader prefix
-    const volumeLoaderScheme = 'cornerstoneStreamingImageVolume'; // Loader id which defines which volume loader to use
-    const volumeId = `${volumeLoaderScheme}:${volumeName}`; // VolumeId with loader id + volume id
-    const segmentationId = 'MY_SEGMENTATION_ID';
-    const toolGroupId = 'MY_TOOLGROUP_ID';
+const {
+  ToolGroupManager,
+  TrackballRotateTool,
+  Enums: csToolsEnums,
+} = cornerstoneTools;
+
+const { ViewportType } = Enums;
+const { MouseBindings } = csToolsEnums;
+
+// Define a unique id for the volume
+let renderingEngine;
+const volumeName = 'CT_VOLUME_ID'; // Id of the volume less loader prefix
+const volumeLoaderScheme = 'cornerstoneStreamingImageVolume'; // Loader id which defines which volume loader to use
+const volumeId = `${volumeLoaderScheme}:${volumeName}`; // VolumeId with loader id + volume id
+const renderingEngineId = 'myRenderingEngine';
+const viewportId = '3D_VIEWPORT';
 onMounted(() => {
+  const size = '300px';
 
+  // using ref to get 'content' element
+  const content = ref(document.getElementById('content')); // 获取content元素
+  const viewportGrid = document.createElement('div');
 
+  viewportGrid.style.display = 'flex';
+  viewportGrid.style.display = 'flex';
+  viewportGrid.style.flexDirection = 'row';
 
-    // using ref to get 'content' element
-    const content = ref(document.getElementById('content'));
-    const viewportGrid = document.createElement('div');
-    const size = '500px';
-    viewportGrid.style.display = 'flex';
-    viewportGrid.style.display = 'flex';
-    viewportGrid.style.flexDirection = 'row';
+  const element1 = document.createElement('div');
+  element1.oncontextmenu = () => false;
 
-    const element1 = document.createElement('div');
-    const element2 = document.createElement('div');
-    const element3 = document.createElement('div');
-    element1.style.width = size;
-    element1.style.height = size;
-    element2.style.width = size;
-    element2.style.height = size;
-    element3.style.width = size;
-    element3.style.height = size;
+  element1.style.width = size;
+  element1.style.height = size;
 
-    viewportGrid.appendChild(element1);
-    viewportGrid.appendChild(element2);
-    viewportGrid.appendChild(element3);
+  viewportGrid.appendChild(element1);
+  content.value.appendChild(viewportGrid);
+  const instructions = document.createElement('p');
+  instructions.innerText = 'Click the image to rotate it.';
+  content.value.append(instructions);
 
-    content.value.appendChild(viewportGrid);
-    run(element1,element2,element3);
-});
+  const container = ref(document.getElementById('demo-toolbar')); // 获取toolbar元素
 
-/**
- * Adds two concentric circles to each axial slice of the demo segmentation.
- */
-function createMockEllipsoidSegmentation(segmentationVolume) {
-  const scalarData = segmentationVolume.scalarData;
-  const { dimensions } = segmentationVolume;
-
-  const center = [dimensions[0] / 2, dimensions[1] / 2, dimensions[2] / 2];
-  const outerRadius = 50;
-  const innerRadius = 10;
-
-  let voxelIndex = 0;
-
-  for (let z = 0; z < dimensions[2]; z++) {
-    for (let y = 0; y < dimensions[1]; y++) {
-      for (let x = 0; x < dimensions[0]; x++) {
-        const distanceFromCenter = Math.sqrt(
-          (x - center[0]) * (x - center[0]) +
-            (y - center[1]) * (y - center[1]) +
-            (z - center[2]) * (z - center[2])
-        );
-        if (distanceFromCenter < innerRadius) {
-          scalarData[voxelIndex] = 1;
-        } else if (distanceFromCenter < outerRadius) {
-          scalarData[voxelIndex] = 2;
-        }
-        voxelIndex++;
-      }
-    }
-  }
-}
-
-async function addSegmentationsToState() {
-  // Create a segmentation of the same resolution as the source data
-  // using volumeLoader.createAndCacheDerivedVolume.
-  const segmentationVolume = await volumeLoader.createAndCacheDerivedVolume(
-    volumeId,
-    {
-      volumeId: segmentationId,
-    }
-  );
-
-  // Add the segmentations to state
-  segmentation.addSegmentations([
-    {
-      segmentationId,
-      representation: {
-        // The type of segmentation
-        type: csToolsEnums.SegmentationRepresentations.Labelmap,
-        // The actual segmentation data, in the case of labelmap this is a
-        // reference to the source volume of the segmentation.
-        data: {
-          volumeId: segmentationId,
-        },
-      },
+  addDropdownToToolbar({
+    container : container.value, // 容器
+    options: {
+      values: CONSTANTS.VIEWPORT_PRESETS.map((preset) => preset.name),
+      defaultValue: 'CT-Bone',
     },
-  ]);
+    onSelectedValueChange: (presetName) => {
+      const volumeActor = renderingEngine
+        .getViewport(viewportId)
+        .getDefaultActor().actor;
 
-  // Add some data to the segmentations
-  createMockEllipsoidSegmentation(segmentationVolume);
-}
+      utilities.applyPreset(
+        volumeActor,
+        CONSTANTS.VIEWPORT_PRESETS.find((preset) => preset.name === presetName)
+      );
+
+      renderingEngine.render();
+    },
+  });
+
+  run(element1);
+})
+
 
 /**
  * Runs the demo
  */
-async function run(element1,element2,element3) {
+async function run(element1) {
   // Init Cornerstone and related libraries
   await initDemo();
 
-  // Add tools to Cornerstone3D
-  cornerstoneTools.addTool(SegmentationDisplayTool);
+  const toolGroupId = 'TOOL_GROUP_ID';
 
-  // Define tool groups to add the segmentation display tool to
+  // Add tools to Cornerstone3D
+  cornerstoneTools.addTool(TrackballRotateTool);
+
+  // Define a tool group, which defines how mouse events map to tool commands for
+  // Any viewport using the group
   const toolGroup = ToolGroupManager.createToolGroup(toolGroupId);
 
-  toolGroup.addTool(SegmentationDisplayTool.toolName);
-  toolGroup.setToolEnabled(SegmentationDisplayTool.toolName);
+  // Add the tools to the tool group and specify which volume they are pointing at
+  toolGroup.addTool(TrackballRotateTool.toolName, {
+    configuration: { volumeId },
+  });
 
-  // Get Cornerstone imageIds for the source data and fetch metadata into RAM
+  // Set the initial state of the tools, here we set one tool active on left click.
+  // This means left click will draw that tool.
+  toolGroup.setToolActive(TrackballRotateTool.toolName, {
+    bindings: [
+      {
+        mouseButton: MouseBindings.Primary, // Left Click
+      },
+    ],
+  });
+
+  // Get Cornerstone imageIds and fetch metadata into RAM
   const imageIds = await createImageIdsAndCacheMetaData({
     StudyInstanceUID:
       '1.3.6.1.4.1.14519.5.2.1.7009.2403.334240657131972136850343327463',
     SeriesInstanceUID:
       '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561',
-    wadoRsRoot: 'https://d3t6nz73ql33tx.cloudfront.net/dicomweb',
+    wadoRsRoot: 'https://d1qmxk7r72ysft.cloudfront.net/dicomweb',
   });
-
-  // Define a volume in memory
-  const volume = await volumeLoader.createAndCacheVolume(volumeId, {
-    imageIds,
-  });
-
-  // Add some segmentations based on the source data volume
-  await addSegmentationsToState();
 
   // Instantiate a rendering engine
-  const renderingEngineId = 'myRenderingEngine';
-  const renderingEngine = new RenderingEngine(renderingEngineId);
+  renderingEngine = new RenderingEngine(renderingEngineId);
 
   // Create the viewports
-  const viewportId1 = 'CT_AXIAL';
-  const viewportId2 = 'CT_SAGITTAL';
-  const viewportId3 = 'CT_CORONAL';
 
-  const viewportInputArray = 
-  [
+  const viewportInputArray = [
     {
-      viewportId: viewportId1,
-      type: ViewportType.ORTHOGRAPHIC,
+      viewportId: viewportId,
+      type: ViewportType.VOLUME_3D,
       element: element1,
       defaultOptions: {
-        orientation: Enums.OrientationAxis.AXIAL,
-        background: [0.2, 0, 0.2],
-      },
-    },
-    {
-      viewportId: viewportId2,
-      type: ViewportType.ORTHOGRAPHIC,
-      element: element2,
-      defaultOptions: {
-        orientation: Enums.OrientationAxis.SAGITTAL,
-        background: [0.2, 0, 0.2],
-      },
-    },
-    {
-      viewportId: viewportId3,
-      type: ViewportType.ORTHOGRAPHIC,
-      element: element3,
-      defaultOptions: {
         orientation: Enums.OrientationAxis.CORONAL,
-        background: [0.2, 0, 0.2],
+        background: [0, 0, 0.03],
       },
     },
   ];
 
   renderingEngine.setViewports(viewportInputArray);
 
-  toolGroup.addViewport(viewportId1, renderingEngineId);
-  toolGroup.addViewport(viewportId2, renderingEngineId);
-  toolGroup.addViewport(viewportId3, renderingEngineId);
+  // Set the tool group on the viewports
+  toolGroup.addViewport(viewportId, renderingEngineId);
+
+  // Define a volume in memory
+  const volume = await volumeLoader.createAndCacheVolume(volumeId, {
+    imageIds,
+  });
 
   // Set the volume to load
   volume.load();
 
-  // Set volumes on the viewports
-  await setVolumesForViewports(
-    renderingEngine,
-    [{ volumeId }],
-    [viewportId1, viewportId2, viewportId3]
+  setVolumesForViewports(renderingEngine, [{ volumeId }], [viewportId]).then(
+    () => {
+      const volumeActor = renderingEngine
+        .getViewport(viewportId)
+        .getDefaultActor().actor;
+
+      utilities.applyPreset(
+        volumeActor,
+        CONSTANTS.VIEWPORT_PRESETS.find((preset) => preset.name === 'CT-Bone')
+      );
+
+      viewport.render();
+    }
   );
 
-  // // Add the segmentation representation to the toolgroup
-  await segmentation.addSegmentationRepresentations(toolGroupId, [
-    {
-      segmentationId,
-      type: csToolsEnums.SegmentationRepresentations.Labelmap,
-    },
-  ]);
-
-  // Render the image
-  renderingEngine.renderViewports([viewportId1, viewportId2, viewportId3]);
+  const viewport = renderingEngine.getViewport(viewportId);
+  renderingEngine.render();
 }
-
 
 </script>
 
