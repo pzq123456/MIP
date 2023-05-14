@@ -4,6 +4,7 @@
     <button id="btn3">触发错误状态</button>
     <button id="btn4">触发成功状态</button>
     <button id="btn5">触发处理状态</button>
+
 <StatusBar :statuscode="statuscode" :statusmsg="statusmsg"></StatusBar>
 </template>
 
