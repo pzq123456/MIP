@@ -1,8 +1,10 @@
 <template>
     
     <div id="Bar" :style="color">
-        <div id="SeparateLine"></div>
-            <p>{{ statusmsg }}</p>
+           <div id="statusMsg">
+                <p>{{ statusmsg }}</p>
+           </div>
+
     </div>
 </template>
 
@@ -29,10 +31,9 @@ const color = computed(() => {
         // 正常
         let res = {
             "background-color": "#1890ff",
-            // 生成 <div id="SeparateLine"> 的对应样式
-            "#SeparateLine": {
-                "background-color": "#1890ff",
-            }
+            "transition": "all 0.5s ease-in-out",
+            "border": "1px solid #faefef ",
+
         };
 
         return res
@@ -41,9 +42,8 @@ const color = computed(() => {
         // 警告
         let res = {
             "background-color": "#faad14",
-            "#SeparateLine": {
-                "background-color": "#faad14",
-            }
+            "transition": "all 0.5s ease-in-out",
+            "border": "1px solid #df1515 ",
         };
 
         return res
@@ -51,10 +51,10 @@ const color = computed(() => {
     else if (props.statuscode == 2) {
         // 错误
         let res = {
-            "background-color": "#f5222d",
-            "#SeparateLine": {
-                "background-color": "#f5222d",
-            }
+            // more dark red
+            "background-color": "#df1515",            
+            "transition": "all 0.5s ease-in-out",
+            "border": "1px solid #faad14 ",
         };
 
         return res
@@ -63,19 +63,17 @@ const color = computed(() => {
         // 成功
         let res = {
             "background-color": "#52c41a",
-            "#SeparateLine": {
-                "background-color": "#52c41a",
-            }
+            "transition": "all 0.5s ease-in-out",
+            "border": "1px solid #faefef",
         };
         return res
     }
     else if (props.statuscode == 4) {
         // 处理中
         let res = {
-            "background-color": "	#778899",
-            "#SeparateLine": {
-                "background-color": "	#778899",
-            }
+            "background-color": "#778899",
+            "transition": "all 0.5s ease-in-out",
+            "border": "1px solid #faefef ",
         };
 
         return res
@@ -87,16 +85,23 @@ const color = computed(() => {
 <style scoped>
     #Bar{
         width: 100%;
-        height: 40px;
-        background-color: #df1515;
+        height: 30px;
+
         line-height: 50px;
         position: fixed;
         bottom: 0;
         left: 0;
+
+        line-height: 30px ;
+        color:       #ffffff;
+        font-size:   20px;
+        text-align:  left;
+
     }
-    #SeparateLine{
-        width: 100%;
-        height: 3px;
-        background-color: #fdfdfdcc;
+
+    #statusMsg{
+        width: 3.5%;
+        background-color: #4a4646a3;
     }
+
 </style>
