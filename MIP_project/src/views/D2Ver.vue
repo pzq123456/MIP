@@ -337,10 +337,11 @@ onUnmounted(() => {
 
   // distory the tool group
   cornerstoneTools.destroy();
-  // Remove the viewport from the DOM
-  viewport.element.remove();
+
   // distory the rendering engine
   renderingEngine.destroy();
+  // Remove the viewport from the DOM
+  viewport.element.remove();
 
 });
 

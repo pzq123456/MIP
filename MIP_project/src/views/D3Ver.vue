@@ -12,6 +12,7 @@
 import { 
   onMounted,
   ref,
+  onUnmounted
 } from 'vue';
 import {
   CONSTANTS,
@@ -20,6 +21,7 @@ import {
   setVolumesForViewports,
   utilities,
   volumeLoader,
+  getRenderingEngine,
 } from '@cornerstonejs/core';
 import * as cornerstoneTools from '@cornerstonejs/tools';
 import {
@@ -46,6 +48,8 @@ const volumeLoaderScheme = 'cornerstoneStreamingImageVolume'; // Loader id which
 const volumeId = `${volumeLoaderScheme}:${volumeName}`; // VolumeId with loader id + volume id
 const renderingEngineId = 'myRenderingEngine';
 const viewportId = '3D_VIEWPORT';
+
+
 onMounted(() => {
   const size = '300px';
 
@@ -93,6 +97,24 @@ onMounted(() => {
 
   run(element1);
 })
+
+onUnmounted(() => {
+  // Get the rendering engine
+  const renderingEngine = getRenderingEngine(renderingEngineId);
+
+  // Get the stack viewport
+  const viewport = (
+    renderingEngine.getViewport(viewportId)
+  );
+
+  // distory the tool group
+  cornerstoneTools.destroy();
+
+  // distory the rendering engine
+  renderingEngine.destroy();
+  // Remove the viewport from the DOM
+  viewport.element.remove();
+});
 
 
 /**
