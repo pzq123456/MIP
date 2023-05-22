@@ -21,6 +21,7 @@ import {
   Enums,
   volumeLoader,
   getRenderingEngine,
+  cache,
 } from '@cornerstonejs/core';
 
 import {
@@ -334,14 +335,15 @@ onUnmounted(() => {
   const viewport = (
     renderingEngine.getViewport(viewportId)
   );
-
+  // console.log(viewport);
+  cache.purgeCache(); // 清除缓存
   // distory the tool group
   cornerstoneTools.destroy();
+  renderingEngine.disableElement(viewportId);
 
-  // distory the rendering engine
-  renderingEngine.destroy();
   // Remove the viewport from the DOM
   viewport.element.remove();
+  renderingEngine.destroy();
 
 });
 

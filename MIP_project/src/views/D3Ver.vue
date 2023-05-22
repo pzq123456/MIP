@@ -22,6 +22,7 @@ import {
   utilities,
   volumeLoader,
   getRenderingEngine,
+  cache
 } from '@cornerstonejs/core';
 import * as cornerstoneTools from '@cornerstonejs/tools';
 import {
@@ -106,10 +107,9 @@ onUnmounted(() => {
   const viewport = (
     renderingEngine.getViewport(viewportId)
   );
-
+  cache.purgeCache(); // 清除缓存
   // distory the tool group
   cornerstoneTools.destroy();
-
   // distory the rendering engine
   renderingEngine.destroy();
   // Remove the viewport from the DOM
