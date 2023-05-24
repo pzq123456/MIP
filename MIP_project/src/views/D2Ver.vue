@@ -13,6 +13,7 @@
 import { 
   onMounted,
   ref,
+  onUnmounted,
 } from 'vue';
 
 import {
@@ -20,6 +21,7 @@ import {
   Enums,
   volumeLoader,
   getRenderingEngine,
+  cache,
 } from '@cornerstonejs/core';
 
 import {
@@ -325,7 +327,25 @@ addDropdownToToolbar({
 run(element);
 })
   
+onUnmounted(() => {
+  // Get the rendering engine
+  const renderingEngine = getRenderingEngine(renderingEngineId);
 
+  // Get the stack viewport
+  const viewport = (
+    renderingEngine.getViewport(viewportId)
+  );
+  // console.log(viewport);
+  cache.purgeCache(); // 清除缓存
+  // distory the tool group
+  cornerstoneTools.destroy();
+  renderingEngine.disableElement(viewportId);
+
+  // Remove the viewport from the DOM
+  viewport.element.remove();
+  renderingEngine.destroy();
+
+});
 
 /**
  * Runs the demo
@@ -333,6 +353,7 @@ run(element);
  async function run(element) {
     // Init Cornerstone and related libraries
     await initDemo();
+
     // Add tools to Cornerstone3D
     cornerstoneTools.addTool(LengthTool);
     cornerstoneTools.addTool(ProbeTool);
@@ -426,6 +447,7 @@ run(element);
   );
   // Set the tool group on the viewport
   toolGroup.addViewport(viewportId, renderingEngineId);
+
   // Define a volume in memory
   const ctVolume = await volumeLoader.createAndCacheVolume(ctVolumeId, {
     imageIds: ctImageIds,
@@ -451,6 +473,7 @@ run(element);
 
   // Set the volume to load
   ptVolume.load();
+
 }
 
 

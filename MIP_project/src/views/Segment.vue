@@ -11,6 +11,7 @@
 import { 
   onMounted,
   ref,
+  onUnmounted
 } from 'vue';
 
 import {
@@ -18,6 +19,8 @@ import {
   Enums,
   setVolumesForViewports,
   volumeLoader,
+  getRenderingEngine,
+  cache
 } from '@cornerstonejs/core';
 
 import {
@@ -49,6 +52,13 @@ const {
 const { MouseBindings } = csToolsEnums;
 const { ViewportType } = Enums;
 const { segmentation: segmentationUtils } = cstUtils;
+
+const renderingEngineId = 'myRenderingEngine';
+
+// Create the viewports
+const viewportId1 = 'CT_AXIAL';
+const viewportId2 = 'CT_SAGITTAL';
+const viewportId3 = 'CT_CORONAL';
 
 // Define a unique id for the volume
 const volumeName = 'CT_VOLUME_ID'; // Id of the volume less loader prefix
@@ -195,6 +205,45 @@ onMounted(() => {
 
 
 })
+
+
+onUnmounted(() => {
+  // Get the rendering engine
+  const renderingEngine = getRenderingEngine(renderingEngineId);
+  
+  // Get the viewport1
+  const viewport1 = (
+    renderingEngine.getViewport(viewportId1)
+  );
+  // Remove the viewport from the DOM
+  viewport1.element.remove();
+
+
+  const viewport2 = (
+    renderingEngine.getViewport(viewportId2)
+  );
+  // Remove the viewport from the DOM
+  viewport2.element.remove();
+
+
+  const viewport3 = (
+    renderingEngine.getViewport(viewportId3)
+  );
+  // Remove the viewport from the DOM
+  viewport3.element.remove();
+
+  cache.purgeCache(); // 清除缓存
+  // distory the tool group
+  cornerstoneTools.destroy();
+
+  // distory the rendering engine
+  renderingEngine.destroy();
+
+
+});
+
+
+
 async function addSegmentationsToState() {
   // Create a segmentation of the same resolution as the source data
   // using volumeLoader.createAndCacheDerivedVolume.
@@ -328,13 +377,8 @@ async function run(element1,element2,element3) {
   await addSegmentationsToState();
 
   // Instantiate a rendering engine
-  const renderingEngineId = 'myRenderingEngine';
-  const renderingEngine = new RenderingEngine(renderingEngineId);
 
-  // Create the viewports
-  const viewportId1 = 'CT_AXIAL';
-  const viewportId2 = 'CT_SAGITTAL';
-  const viewportId3 = 'CT_CORONAL';
+  const renderingEngine = new RenderingEngine(renderingEngineId);
 
   const viewportInputArray = [
     {
