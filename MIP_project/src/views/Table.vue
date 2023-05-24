@@ -1,101 +1,158 @@
 <template>
-  <div class="container">
-    <!-- 标题 -->
-    <div class="title">
-      <h2 style="color:#67C23A">最简单的demo</h2>
-    </div>
-    <div class="queryInput" >
-      <el-row>
-        <div class="input-col">
-          <span>检索日期范围</span>
-          <!-- 第一个列 -->
-          <el-col :span="10">
-            <el-date-picker v-model="SearchDate_val" type="daterange" unlink-panels range-separator="|" start-placeholder="开始日期"
-              end-placeholder="结束日期"  @change="enterSearch_Date" />
-            </el-col>
-        </div>
-        <div class="input-col">
-          <span>检索患者姓名</span>
-          <!-- 第二个列 -->
-          <el-col :span="10">
-            <!-- keyup.enter回车键触发事件 -->
-            <el-input  v-model="SearchNameVal" placeholder="按姓名查询" class="input-with-Name" :inputType="'inputName'" @input="inputSearch"
-              @keyup.enter="enterSearch_Name">
-              <!-- <el-date-picker v-model="form.date" type="date" placeholder="请选择一个时间"  value-format="YYYY-MM-DD" ></el-date-picker> -->
-              <!-- 内嵌添加一个搜索按钮 -->
-              <!-- #append表示注释 -->
-              <template #append>
-                <el-button :icon="Search" type="primary" @click="enterSearch_Date"></el-button>
+    <el-container class="layout-container-header">
+      <el-header style="text-align: right; font-size: 17px" class="container-header">
+        <p>
+          <el-icon :size="30">
+        <ChromeFilled   style="width: 1em; height: 1em; " size="large" />
+      </el-icon>
+          Open Health Imaging Foundation
+        </p>
+        <el-button type="danger" v-model="filterVisable" v-if="filterVisable" size="large" round @click="close_Fliter"  :icon="CircleCloseFilled" >Clear Filters</el-button>
+          <div class="toolbar">
+            <el-dropdown>
+              <el-icon  :size="30" style="margin-right: 8px; margin-top: 1px" 
+                ><setting
+              /></el-icon>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item>关于</el-dropdown-item>
+                  <el-dropdown-item>偏好</el-dropdown-item>
+                  <!-- <el-dropdown-item>Delete</el-dropdown-item> -->
+                </el-dropdown-menu>
               </template>
-            </el-input>
-          </el-col>
-        </div>
-        <!-- 第三列 -->
-        <div class="input-col">
-              <el-col :span="10">
-                <span style="font-size: 15px;">磁共振</span>
-                <el-input v-model="SearchNmrhVal" placeholder="" class="input-with-Nmr" @input="inputSearch"
-                  @keyup.enter="enterSearch_Nmr"></el-input>
-              </el-col>
-            </div>
-        <!-- 第四列 -->
-        <div class="input-col">
-            <el-col :span="10">
-              <span>描述</span>
-              <el-input  v-model="SearchDesVal" placeholder="" class="input-with-dsc" @input="inputSearch"
-                @keyup.enter="enterSearch_dsc" width="120"></el-input>
-            </el-col>
+            </el-dropdown>
+            <span>研究用途</span>
           </div>
-      </el-row>
-    </div>
-    
-  </div>
-
-  <div>
-    <el-table :data="currentTableData" style="width: 100%" height="480px" :row-key="row => row.id"
-      :default-sort="{ prop: 'date,name', order: 'descending' }"     
-        @selection-change="handleSelectionChange" @row-click="openDetails"  >
-      <el-table-column type="selection" width="120" />
-      <el-table-column fixed prop="date" v-model="form.date" label="检查日期" width="150" sortable />
-      <el-table-column prop="id" v-model="form.id" label="患者编号" width="120" sortable />
-      <el-table-column prop="name" v-model="form.name" label="患者姓名" width="120" sortable />
-      <el-table-column prop="nmr" v-model="form.nmr" label="磁共振" width="120"  sortable/>
-      <el-table-column prop="description" v-model="form.description" label="描述" width="600" />
-      <el-table-column prop="instances" v-model="form.instances" label="实例" width="100" />
-      <el-table-column fixed="right" label="Operations" width="120">
-        <template #default="scope">
-          <!-- <el-button link type="primary" size="large" style="color: #F56C6C;" @click.prevent="handleDelete(scope.row.id)">
+        </el-header>
+        <el-container class="layout-container-main">
+          <el-header class="main-header">
+            <div class="main-header-header">
+              <span class="span1">StudyList</span>
+              <span class="span2">{{ tableData.length.toString()}}</span>
+            </div>
+            <div class="queryInput" >
+                      <el-row>
+                        <div class="input-col">
+                          <span style="font-size: 15px; color:white">检索日期</span>
+                          <!-- 第一个列 -->
+                          <el-col :span="10">
+                            <el-date-picker v-model="SearchDate_val" type="daterange" unlink-panels range-separator="|" start-placeholder="开始日期"
+                              end-placeholder="结束日期"  @change="enterSearch_Date" />
+                            </el-col>
+                        </div>
+                        <div class="input-col">
+                          <span style="font-size: 15px; color:white">检索患者</span>
+                          <!-- 第二个列 -->
+                          <el-col :span="10">
+                            <!-- keyup.enter回车键触发事件 -->
+                            <el-input  v-model="SearchNameVal" placeholder="按姓名查询" class="input-with-Name" :inputType="'inputName'" @input="inputSearch"
+                              @keyup.enter="enterSearch_Name">
+                              <!-- <el-date-picker v-model="form.date" type="date" placeholder="请选择一个时间"  value-format="YYYY-MM-DD" ></el-date-picker> -->
+                              <!-- 内嵌添加一个搜索按钮 -->
+                              <!-- #append表示注释 -->
+                              <template #append>
+                                <el-button :icon="Search" type="primary" @click="enterSearch_Date"></el-button>
+                              </template>
+                            </el-input>
+                          </el-col>
+                        </div>
+                        <!-- 第三列 -->
+                        <div class="input-col">
+                              <el-col :span="10">
+                                <span style="font-size: 15px; color:white">磁共振</span>
+                                <el-input v-model="SearchNmrhVal" placeholder="" class="input-with-Nmr" @input="inputSearch"
+                                  @keyup.enter="enterSearch_Nmr"></el-input>
+                              </el-col>
+                            </div>
+                        <!-- 第四列 -->
+                        <div class="input-col">
+                              <el-col :span="10">
+                                <span style="font-size: 15px; color:white;;" >成像设备</span>
+                                <!-- <el-input  v-model="SearchDesVal" placeholder="" class="input-with-device" @input="inputSearch"
+                              @keyup.enter="enterSearch_dsc" width="120"></el-input> -->
+                                  <el-dropdown class="table-dropdown"  @command="handleCommand">
+                                    <el-input style="width: 130px;" v-model="SearchDeviceVal"  >
+                                      <!-- <el-icon  :size="30" style="margin-right: 8px; margin-top: 1px" ><setting/></el-icon> -->
+                                    </el-input>
+            <!-- <el-button style="width: 130px;">
+        <el-icon class="el-icon--right"><arrow-down /></el-icon>
+        </el-button> -->
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="Action 1">Action 1</el-dropdown-item>
+                <el-dropdown-item command="Action 2">Action 2</el-dropdown-item>
+                <el-dropdown-item command="Action 3">Action 3</el-dropdown-item>
+                <el-dropdown-item command="Action 4">Action 4</el-dropdown-item>
+                <!-- <el-dropdown-item>Action 5</el-dropdown-item> -->
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+                              
+                              </el-col>
+                            </div>
+                          <!-- 第五列 -->
+                          <div class="input-col">
+                              <el-col :span="10">
+                                <span style="font-size: 15px; color:white">描述</span>
+                                <el-input  v-model="SearchDesVal" placeholder="" class="input-with-dsc" @input="inputSearch"
+                                  @keyup.enter="enterSearch_dsc" width="120"></el-input>
+                              </el-col>
+                            </div>
+                      </el-row>
+                    </div>
+          </el-header>
+          <el-main class="main-main">
+           <div class="table">
+                  <el-table class="table" :data="currentTableData" style="width: 100%" height="480px" stripe :row-key="row => row.id"
+                    :default-sort="{ prop: 'date,name', order: 'descending' }"     
+                      @selection-change="handleSelectionChange" @row-click="openDetails"  >
+                    <el-table-column type="selection" width="120" />
+                    <el-table-column fixed prop="date" v-model="form.date" label="检查日期" width="150" sortable />
+                    <el-table-column prop="id" v-model="form.id" label="患者编号" width="120" sortable />
+                    <el-table-column prop="name" v-model="form.name" label="患者姓名" width="120" sortable />
+                    <el-table-column prop="nmr" v-model="form.nmr" label="磁共振" width="120"  sortable/>
+                    <el-table-column prop="description" v-model="form.description" label="描述" width="600" />
+                    <el-table-column prop="instances" v-model="form.instances" label="实例" width="100"  />
+                    <el-table-column fixed="right" label="Operations" width="120">
+                      <template #default="scope">
+                        <!-- <el-button link type="primary" size="large" style="color: #F56C6C;" @click.prevent="handleDelete(scope.row.id)">
             移除
           </el-button> -->
-          <!-- scope为一个对象，其中target属性包含了一个对象的所有信息  -->
-          <el-button link type="primary" size="large" @click.prevent="handleEdit(scope.$index, scope.row)">
-            编辑
-          </el-button>
-        </template>
+                        <!-- scope为一个对象，其中target属性包含了一个对象的所有信息  -->
+                        <el-button link type="primary" size="large" @click.prevent="handleEdit(scope.$index, scope.row)">
+                          编辑
+                        </el-button>
+                      </template>
 
-      </el-table-column>
-    </el-table>
-    <el-button class="mt-4" style="width: 100%" @click="onAddItem">添加项目
-    </el-button>
+                    </el-table-column>
+                  </el-table>
+                </div>
+            
+                <el-button class="mt-4" style="width: 100%; background: rgb(9,12,41); color: white;" @click="onAddItem">添加项目
+                </el-button>
 
-    <!-- 页码 -->
-    <!-- current-change事件在页码发生变化时，触发该事件时，先自动把：current-page绑定的页码数据作为参数 -->
-    <el-pagination background  :current-page="currentPage" :page-size="pageSize " :total="tableData.length"  
-    layout="prev, pager, next"
-    @current-change="handleCurrentChange"/>
-    <!-- <el-dialog> 
+                <!-- 页码 -->
+                <!-- current-change事件在页码发生变化时，触发该事件时，先自动把：current-page绑定的页码数据作为参数 -->
+                <el-pagination  :current-page="currentPage" :page-size="pageSize" :total="tableData.length"  
+                layout="prev, pager, next"
+                @current-change="handleCurrentChange"/>
+                <!-- <el-dialog> 
     </el-dialog> -->
-  </div>
+          
 
-  <!-- 添加组件 -->
-  <!-- closeAdd和success为子组件向父组件传递过来的的事件 -->
-  <!-- <addDialog :is-show="isShow" :info="info" @close-add="closeAdd" @submit="handleSubmit"></addDialog> -->
-  <detailDialog :is-show="isShow " :table-details="tableDetails" @close-details="closeDetails" ></detailDialog>
+              <!-- 添加组件 -->
+              <!-- closeAdd和success为子组件向父组件传递过来的的事件 -->
+              <!-- <addDialog :is-show="isShow" :info="info" @close-add="closeAdd" @submit="handleSubmit"></addDialog> -->
+              <detailDialog :is-show="isShow" :table-details="tableDetails" @close-details="closeDetails" ></detailDialog>
+          </el-main>
+        </el-container>
+      </el-container>
+
 </template>
 
 <script lang="ts" setup>
-import { DocumentCopy, Search } from '@element-plus/icons-vue';
-import { ref, Ref } from 'vue';
+import { DocumentCopy, Search, ChromeFilled, Memo, CircleCloseFilled, ArrowDownBold} from '@element-plus/icons-vue';
+import { ref, Ref,onMounted } from 'vue';
 // 引用moment库
 import moment from 'moment';
 
@@ -252,21 +309,34 @@ const currentTableData=ref([]);
 const SearchNameVal = ref("");
 const SearchNmrhVal = ref("");
 const SearchDesVal = ref("");
+const SearchDeviceVal=ref("");
 // 声明一个对话框类型
 const dialogType = ref("add");
 // 拷贝表格信息，用于空信息输入框查询后回溯之前表格信息
 var tableDataCopy = Object.assign(tableData.value);
 // const inputType=ref("name");
-
-
+const filterVisable =ref(false);
 
 /* 方法 */
 
 // 实现detailDialog组件的emit方法
+onMounted(()=>{
+  filterVisable.value=false;
+})
 const openDetails=()=>{
   isShow.value = true;
 }
 
+// 是否关闭检索
+const close_Fliter=()=>{
+  filterVisable.value=false;
+  currentTableData.value = tableDataCopy;
+}
+
+// 成像设备下拉菜单
+const handleCommand = (command: string ) => {
+  SearchDeviceVal.value=command;
+}
 /*-----------------分页与表格联系------------------- */
 // 表格与分页建立联系(没问题)
 const handleCurrentChange=(newPage)=>{
@@ -295,6 +365,7 @@ const enterSearch_Date=()=>{
     currentTableData.value = tableDataCopy;
   }
   else {
+    filterVisable.value = true;
     let filteredData = tableData.value.filter(item => {
       // 给日期进行格式化
       let date = moment(item.date, 'YYYY-MM-DD');
@@ -312,7 +383,9 @@ const enterSearch_Date=()=>{
 const enterSearch_Name = () => {
   // `filter()` 方法返回的是一个新的数组，不会改变原数组
   if (SearchNameVal.value.length > 0) {
+    filterVisable.value=true;
     currentTableData.value = tableData.value.filter(item => (item.name).toLowerCase().match(SearchNameVal.value.toLowerCase()));
+  
   }
   else {
     currentTableData.value = tableDataCopy;
@@ -321,6 +394,7 @@ const enterSearch_Name = () => {
 
 const enterSearch_Nmr = () => {
   if (SearchNmrhVal.value.length > 0) {
+    filterVisable.value = true;
     currentTableData.value = tableData.value.filter(item => (item.nmr).toLowerCase().match(SearchNmrhVal.value.toLowerCase()));
   }
   else {
@@ -330,6 +404,7 @@ const enterSearch_Nmr = () => {
 
 const enterSearch_dsc = () => {
   if (SearchDesVal.value.length > 0) {
+    filterVisable.value = true;
     currentTableData.value = tableData.value.filter(item => (item.description).toLowerCase().match(SearchDesVal.value.toLowerCase()));
   }
   else {
@@ -486,7 +561,7 @@ const onAddItem = () => {
   /* width: 900px; */
 }
 .input-col{
-  padding: 0 50px;
+  /* padding: 0 10px; */
   /* margin: 0 50px; */
   box-sizing: border-box;
   /* width: 200px; */
@@ -517,6 +592,108 @@ const onAddItem = () => {
 .input-with-dsc{
 width: 350px;
   height: 30px;
+}
+/* .el-header{
+  display: flex;
+  background-color: rgb(4, 28, 74);
+} */
+
+
+/* .layout-container-demo .el-header {
+  position: relative;
+  background-color:  rgb(4, 28, 74);
+  color: white;
+  
+} */
+.el-header {
+  position: relative;
+  /* background-color:  rgb(4, 28, 74); */
+  background-color:  rgb(15,18,21);
+  color: white;
+}
+.layout-container-demo .el-menu {
+  border-right: none;
+}
+/* .layout-container-demo .el-main {
+  padding: 0;
+} */
+.layout-container-demo .toolbar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  right: 20px;
+}
+.toolbar{
+  position:relative;
+  right:0;
+  padding: 15px 0;
+}
+.container-header{
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container-header p{
+font-size: 30px;
+/* position: fixed; */
+display: flex;
+align-items: center;
+}
+
+
+.layout-container-main{
+  /* background: rgb(9,12,41); */
+  /* background: seagreen; */
+  margin:0 40px;
+}
+.main-header {
+  /* background: rgb(9,12,41); */
+  background: rgb(21,26,31);
+  /* margin: 20px 0; */
+  height: 140px;
+  width: 100%;
+  border-bottom: solid 0.05em rgb(0,164,217) ;
+}
+.main-main {
+  /* background: rgb(9,12,41); */
+  background: rgb(21,26,31);
+  color: white;
+  padding: 0;
+}
+.table{
+  /* background: rgb(9,12,41); */
+  background: rgb(21,26,31);
+ 
+}
+/* .queryInput .el-table{
+  background: rgb(9,12,41);
+} */
+.el-table-column{
+   background: rgb(9,12,41);
+   
+}
+/* #el-id-5344-6{
+ background: rgb(9,12,41);
+ border-color:   rgb(58, 63, 153);
+} */
+.main-header-header{
+  margin: 10px 0;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 0.05em #000;
+  /* flex-direction:row */
+}
+.main-header-header span{
+  font-size: 22px;
+  color: rgb(0,164,217);
+}
+.main-header-header .span2{
+  font-size: 35px;
 }
 
 </style>

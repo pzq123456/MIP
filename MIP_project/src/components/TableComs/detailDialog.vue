@@ -4,12 +4,8 @@
     <el-dialog v-model="dialogVisable" :title="'详情病例'" draggable width="80%" @close="$emit('closeDetails')" 
     >
         <el-row class="mb-4">
-            <el-button>Default</el-button>
-            <el-button type="primary">Primary</el-button>
-            <el-button type="success">Success</el-button>
-            <el-button type="info">Info</el-button>
-            <el-button type="warning">Warning</el-button>
-            <el-button type="danger">Danger</el-button>
+                <el-button type="primary" :icon="Open" round size="large" >Basic Viewer </el-button>
+            <!-- <el-button type="danger">Danger</el-button> -->
         </el-row>
         <!-- 添加details表格 -->
         <el-table :data="tableDetails"  style="width: 100%" size="large" height="480px" :row-key="row => row.id"
@@ -34,7 +30,8 @@
 <script lang="ts" setup>
 // Ref是用于声明的
 import { ref, Ref, computed, watch } from 'vue';
-
+// 引入icon图标
+import { DocumentCopy, Search,Open } from '@element-plus/icons-vue';
 // 组件传值
 import User from '../../class/User';
 import Detail from '../../class/Detail'
@@ -52,7 +49,8 @@ const props = defineProps({
     isShow: Boolean,
     info: User,
     form: User,
-    tableDetails:[]
+    tableDetails:[],
+   
 })
 // 定义一个emits用于向父组件发送类似于事件接口，其具体如何实现，由父组件去实现。即建立了子组件与父组件的交流函数关系。
 const emits = defineEmits(["closeDetails", "confirm", "input-change", "submit","openDetails"]);
