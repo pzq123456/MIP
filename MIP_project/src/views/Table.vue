@@ -103,7 +103,7 @@
           </el-header>
           <el-main class="main-main">
            <div class="table">
-                  <el-table class="table" :data="currentTableData" style="width: 100%" height="480px" stripe :row-key="row => row.id"
+                  <el-table class="table" :data="currentTableData" style="width: 100%" height="530px" stripe :row-key="row => row.id"
                     :default-sort="{ prop: 'date,name', order: 'descending' }"     
                       @selection-change="handleSelectionChange" @row-click="openDetails"  >
                     <el-table-column type="selection" width="120" />
@@ -128,7 +128,7 @@
                   </el-table>
                 </div>
             
-                <el-button class="mt-4" style="width: 100%; background: rgb(9,12,41); color: white;" @click="onAddItem">添加项目
+                <el-button class="mt-4" style="width: 100%; background: rgba(9, 12, 41, 0.525); color: white;" @click="onAddItem">添加项目
                 </el-button>
 
                 <!-- 页码 -->
@@ -144,9 +144,15 @@
               <!-- closeAdd和success为子组件向父组件传递过来的的事件 -->
               <!-- <addDialog :is-show="isShow" :info="info" @close-add="closeAdd" @submit="handleSubmit"></addDialog> -->
               <detailDialog :is-show="isShow" :table-details="tableDetails" @close-details="closeDetails" ></detailDialog>
+
           </el-main>
+          <el-footer style="display: flex; justify-content: center; margin-top: 10px;">
+            ©2021 Created by SKDDX20
+        </el-footer>
         </el-container>
       </el-container>
+
+
 
 </template>
 
@@ -540,11 +546,11 @@ const onAddItem = () => {
 <style scoped>
 .title {
   /* background color  */
-  background-color: #40a0ff26;
+  background-color: #3d87d13b;
   /* text-align */
   text-align: center;
   border-radius: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #fffdfdb8;
   justify-content: center;
   /* margin-left: 25%; */
   margin-bottom: 20px;
@@ -608,8 +614,8 @@ width: 350px;
 .el-header {
   position: relative;
   /* background-color:  rgb(4, 28, 74); */
-  background-color:  rgb(15,18,21);
-  color: white;
+  background-color:  rgba(13, 31, 49, 0.638);
+  color: rgba(255, 255, 255, 0.802);
 }
 .layout-container-demo .el-menu {
   border-right: none;
@@ -650,28 +656,28 @@ align-items: center;
 }
 .main-header {
   /* background: rgb(9,12,41); */
-  background: rgb(21,26,31);
+  background: rgba(4, 18, 32, 0.792);
   /* margin: 20px 0; */
   height: 140px;
   width: 100%;
-  border-bottom: solid 0.05em rgb(0,164,217) ;
+  border-bottom: solid 0.05em rgba(9, 193, 255, 0.514) ;
 }
 .main-main {
   /* background: rgb(9,12,41); */
-  background: rgb(21,26,31);
+  background: rgba(11, 50, 78, 0.208);
   color: white;
   padding: 0;
 }
 .table{
   /* background: rgb(9,12,41); */
-  background: rgb(21,26,31);
+  background: rgba(33, 40, 46, 0.487);
  
 }
 /* .queryInput .el-table{
   background: rgb(9,12,41);
 } */
 .el-table-column{
-   background: rgb(9,12,41);
+   background: rgba(4, 6, 27, 0.72);
    
 }
 /* #el-id-5344-6{
@@ -685,12 +691,12 @@ align-items: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid 0.05em #000;
+  border-bottom: solid 0.05em #222020b5;
   /* flex-direction:row */
 }
 .main-header-header span{
   font-size: 22px;
-  color: rgb(0,164,217);
+  color: rgba(0, 163, 217, 0.558);
 }
 .main-header-header .span2{
   font-size: 35px;
