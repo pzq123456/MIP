@@ -71,18 +71,17 @@
                                 <!-- <el-input  v-model="SearchDesVal" placeholder="" class="input-with-device" @input="inputSearch"
                               @keyup.enter="enterSearch_dsc" width="120"></el-input> -->
                                   <el-dropdown class="table-dropdown"  @command="handleCommand">
-                                    <el-input style="width: 130px;" v-model="SearchDeviceVal"  >
-                                      <!-- <el-icon  :size="30" style="margin-right: 8px; margin-top: 1px" ><setting/></el-icon> -->
+                                    <el-input style="width: 130px;" v-model="selectedOption"  >
                                     </el-input>
             <!-- <el-button style="width: 130px;">
         <el-icon class="el-icon--right"><arrow-down /></el-icon>
         </el-button> -->
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="Action 1">Action 1</el-dropdown-item>
-                <el-dropdown-item command="Action 2">Action 2</el-dropdown-item>
-                <el-dropdown-item command="Action 3">Action 3</el-dropdown-item>
-                <el-dropdown-item command="Action 4">Action 4</el-dropdown-item>
+                <el-dropdown-item command="AU">AU</el-dropdown-item>
+                <el-dropdown-item command="AR">AR</el-dropdown-item>
+                <el-dropdown-item command="BDUS">BDUS</el-dropdown-item>
+                <el-dropdown-item command="HR">HR</el-dropdown-item>
                 <!-- <el-dropdown-item>Action 5</el-dropdown-item> -->
               </el-dropdown-menu>
             </template>
@@ -111,6 +110,7 @@
                     <el-table-column prop="id" v-model="form.id" label="患者编号" width="120" sortable />
                     <el-table-column prop="name" v-model="form.name" label="患者姓名" width="120" sortable />
                     <el-table-column prop="nmr" v-model="form.nmr" label="磁共振" width="120"  sortable/>
+                    <el-table-column prop="device" v-model="form.device" label="成像设备" width="120"  sortable/>
                     <el-table-column prop="description" v-model="form.description" label="描述" width="600" />
                     <el-table-column prop="instances" v-model="form.instances" label="实例" width="100"  />
                     <el-table-column fixed="right" label="Operations" width="120">
@@ -177,7 +177,7 @@ const tableData = ref([
     name: 'Tom2',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
-    device: "纳米",
+    device: "AU",
     id: '1',
     instances:0
   },
@@ -186,7 +186,7 @@ const tableData = ref([
     name: 'Tom1',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5074",
-    device: "纳米",
+    device: "AU",
     id: '2',
     instances: 0,
   },
@@ -195,7 +195,7 @@ const tableData = ref([
     name: 'Tom3',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5075",
-    device: "纳米",
+    device: "AR",
     id:'3',
     instances: 0
 
@@ -205,7 +205,7 @@ const tableData = ref([
     name: 'Army',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
-    device: "纳米",
+    device: "BDUS",
     id: '1',
     instances: 0
   },
@@ -214,7 +214,7 @@ const tableData = ref([
     name: 'Army',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
-    device: "纳米",
+    device: "BDUS",
     id: '1',
     instances: 0
   },
@@ -223,7 +223,7 @@ const tableData = ref([
     name: 'Army',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
-    device: "纳米",
+    device: "AR",
     id: '1',
     instances: 0
   },
@@ -232,7 +232,7 @@ const tableData = ref([
     name: 'Army',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
-    device: "纳米",
+    device: "AR",
     id: '1',
     instances: 0
   },
@@ -241,7 +241,7 @@ const tableData = ref([
     name: 'Army',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
-    device: "纳米",
+    device: "HR",
     id: '1',
     instances: 0
   },
@@ -250,7 +250,7 @@ const tableData = ref([
     name: 'Army',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
-    device: "纳米",
+    device: "AR",
     id: '1',
     instances: 0
   },
@@ -259,7 +259,7 @@ const tableData = ref([
     name: 'Army',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5073",
-    device: "纳米",
+    device: "HR",
     id: '1',
     instances: 0
   },
@@ -310,6 +310,7 @@ const SearchNameVal = ref("");
 const SearchNmrhVal = ref("");
 const SearchDesVal = ref("");
 const SearchDeviceVal=ref("");
+const selectedOption=ref("")
 // 声明一个对话框类型
 const dialogType = ref("add");
 // 拷贝表格信息，用于空信息输入框查询后回溯之前表格信息
@@ -317,7 +318,7 @@ var tableDataCopy = Object.assign(tableData.value);
 // const inputType=ref("name");
 const filterVisable =ref(false);
 
-/* 方法 */
+/* ----------------------------------------方法--------------------------------------------- */
 
 // 实现detailDialog组件的emit方法
 onMounted(()=>{
@@ -327,15 +328,14 @@ const openDetails=()=>{
   isShow.value = true;
 }
 
-// 是否关闭检索
-const close_Fliter=()=>{
-  filterVisable.value=false;
-  currentTableData.value = tableDataCopy;
-}
+
 
 // 成像设备下拉菜单
 const handleCommand = (command: string ) => {
-  SearchDeviceVal.value=command;
+  selectedOption.value=command;
+  console.log(selectedOption.value);
+  inputSearch_device();
+
 }
 /*-----------------分页与表格联系------------------- */
 // 表格与分页建立联系(没问题)
@@ -379,6 +379,17 @@ const enterSearch_Date=()=>{
   }
 
 }
+// 是否关闭检索
+const close_Fliter = () => {
+  filterVisable.value = false;
+  currentTableData.value = tableDataCopy;
+  SearchDate_val.value = "";
+  SearchDeviceVal.value = "";
+  SearchNameVal.value = "";
+  SearchDesVal.value = "";
+  SearchNmrhVal.value = "";
+  selectedOption.value="";
+}
 
 const enterSearch_Name = () => {
   // `filter()` 方法返回的是一个新的数组，不会改变原数组
@@ -416,6 +427,19 @@ const inputSearch = () => {
     currentTableData.value = tableDataCopy;
 }
 
+const inputSearch_device=()=>{
+  SearchDeviceVal.value=selectedOption.value;
+  console.log(SearchDeviceVal.value)
+  if (SearchDeviceVal.value.length > 0) {
+    filterVisable.value = true;
+    let filteredData= tableData.value.filter(item => (item.device).toLowerCase().match(SearchDeviceVal.value.toLowerCase()));
+    currentTableData.value=filteredData;
+
+  }
+  else {
+    currentTableData.value = tableDataCopy;
+  }
+}
 // 关闭细节对话框
 const closeDetails = () => {
   isShow.value = false;
@@ -527,7 +551,7 @@ const onAddItem = () => {
     name: 'Tom2',
     description: 'No. 189, Grove St, Los Angeles',
     nmr: "TCGA-50-5072",
-    device: "纳米",
+    device: "HR",
     id: '2',
     instances:0
   })

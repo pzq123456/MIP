@@ -7,7 +7,7 @@
                     <div class="header-header1">
                         <p>
                             <el-icon :size="40">
-                            <ChromeFilled   style="width: 1em; height: 1em; " size="large" />
+                            <ChromeFilled   style="width: 1e··m; height: 1em; " size="large" />
                             </el-icon>
                     Open Health Imaging Foundation 
                     <el-divider direction="vertical" style="background: rgb(32,165,214);"/>
