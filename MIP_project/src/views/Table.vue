@@ -102,7 +102,7 @@
           </el-header>
           <el-main class="main-main">
            <div class="table">
-                  <el-table class="table" :data="currentTableData" style="width: 100%" height="480px" stripe :row-key="row => row.id"
+                  <el-table class="table" :data="currentTableData" style="width: 100%" height="590px" stripe :row-key="row => row.id"
                     :default-sort="{ prop: 'date,name', order: 'descending' }"     
                       @selection-change="handleSelectionChange" @row-click="openDetails"  >
                     <el-table-column type="selection" width="120" />
@@ -128,7 +128,7 @@
                   </el-table>
                 </div>
             
-                <el-button class="mt-4" style="width: 100%; background: rgb(9,12,41); color: white;" @click="onAddItem">添加项目
+                <el-button class="mt-4" style="width: 100%; background: rgba(130, 133, 155, 0.249); color: white;" @click="onAddItem">添加项目
                 </el-button>
 
                 <!-- 页码 -->
@@ -144,9 +144,15 @@
               <!-- closeAdd和success为子组件向父组件传递过来的的事件 -->
               <!-- <addDialog :is-show="isShow" :info="info" @close-add="closeAdd" @submit="handleSubmit"></addDialog> -->
               <detailDialog :is-show="isShow" :table-details="tableDetails" @close-details="closeDetails" ></detailDialog>
+
           </el-main>
+          <el-footer id="footer">
+            ©2021 Created by SKDDX20
+        </el-footer>
         </el-container>
       </el-container>
+
+
 
 </template>
 
@@ -562,13 +568,14 @@ const onAddItem = () => {
 
 
 <style scoped>
+
 .title {
   /* background color  */
-  background-color: #40a0ff26;
+  background-color: #3d87d13b;
   /* text-align */
   text-align: center;
   border-radius: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #fffdfdb8;
   justify-content: center;
   /* margin-left: 25%; */
   margin-bottom: 20px;
@@ -600,9 +607,14 @@ const onAddItem = () => {
 }
 
 .table{
+  background: rgba(20, 52, 83, 0.003);
   width: 100%;
   height: 100%;
-  /* center self */
+  /* center items */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
 }
 
 .search_bar{
@@ -632,8 +644,8 @@ width: 350px;
 .el-header {
   position: relative;
   /* background-color:  rgb(4, 28, 74); */
-  background-color:  rgb(15,18,21);
-  color: white;
+  background-color:  rgba(13, 31, 49, 0.638);
+  color: rgba(255, 255, 255, 0.802);
 }
 .layout-container-demo .el-menu {
   border-right: none;
@@ -654,10 +666,11 @@ width: 350px;
   padding: 15px 0;
 }
 .container-header{
-  height: 100px;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: solid 0.05em rgba(9, 193, 255, 0.514);
 }
 .container-header p{
 font-size: 30px;
@@ -668,34 +681,28 @@ align-items: center;
 
 
 .layout-container-main{
-  /* background: rgb(9,12,41); */
-  /* background: seagreen; */
-  margin:0 40px;
+  width: 100%;
+  margin:0 auto;
 }
 .main-header {
   /* background: rgb(9,12,41); */
-  background: rgb(21,26,31);
+  background: rgba(13, 31, 49, 0.638);
   /* margin: 20px 0; */
   height: 140px;
   width: 100%;
-  border-bottom: solid 0.05em rgb(0,164,217) ;
+  border-bottom: solid 0.05em rgba(9, 193, 255, 0.514) ;
 }
 .main-main {
   /* background: rgb(9,12,41); */
-  background: rgb(21,26,31);
+  background: rgba(11, 50, 78, 0.208);
   color: white;
   padding: 0;
-}
-.table{
-  /* background: rgb(9,12,41); */
-  background: rgb(21,26,31);
- 
 }
 /* .queryInput .el-table{
   background: rgb(9,12,41);
 } */
 .el-table-column{
-   background: rgb(9,12,41);
+   background: rgba(4, 6, 27, 0.72);
    
 }
 /* #el-id-5344-6{
@@ -709,15 +716,28 @@ align-items: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid 0.05em #000;
+  border-bottom: solid 0.05em #2220201d;
   /* flex-direction:row */
 }
 .main-header-header span{
   font-size: 22px;
-  color: rgb(0,164,217);
+  color: rgba(0, 163, 217, 0.93);
 }
 .main-header-header .span2{
   font-size: 35px;
+}
+
+
+/* footer */
+#footer{
+  /* position: fixed; */
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  background: rgba(242, 243, 245, 0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>
