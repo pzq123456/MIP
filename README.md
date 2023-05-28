@@ -144,5 +144,5 @@ https://github.com/Project-MONAI/model-zoo/tree/dev/models/swin_unetr_btcv_segme
 ## WebDicom 服务器地址
 http://124.220.5.235:8042/dicom-web/studies
 
-## Labeling and Segmentation 部分参考项目
+## Labelling and Segmentation 部分参考项目
 https://github.com/Project-MONAI/MONAILabel/tree/main/plugins/ohif
