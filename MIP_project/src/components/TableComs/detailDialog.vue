@@ -4,7 +4,7 @@
     <el-dialog v-model="dialogVisable" :title="'详情病例'" draggable width="80%" @close="$emit('closeDetails')" 
     >
         <el-row class="mb-4">
-                <el-button type="primary" :icon="Open" round size="large" >Basic Viewer </el-button>
+                <el-button type="primary" :icon="Open" round size="large" @click="$router.push('/d3ver_demo');" >Basic Viewer </el-button>
             <!-- <el-button type="danger">Danger</el-button> -->
         </el-row>
         <!-- 添加details表格 -->

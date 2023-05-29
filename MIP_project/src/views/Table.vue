@@ -45,7 +45,7 @@
                           <!-- 第二个列 -->
                           <el-col :span="10">
                             <!-- keyup.enter回车键触发事件 -->
-                            <el-input  v-model="SearchNameVal" placeholder="按姓名查询" class="input-with-Name" :inputType="'inputName'" @input="inputSearch"
+                            <el-input  v-model="SearchNameVal" placeholder="按姓名查询" class="input-with-Name" :inputType="'inputName'" @input="enterSearch_Name"
                               @keyup.enter="enterSearch_Name">
                               <!-- <el-date-picker v-model="form.date" type="date" placeholder="请选择一个时间"  value-format="YYYY-MM-DD" ></el-date-picker> -->
                               <!-- 内嵌添加一个搜索按钮 -->
@@ -60,7 +60,7 @@
                         <div class="input-col">
                               <el-col :span="10">
                                 <span style="font-size: 15px; color:white">磁共振</span>
-                                <el-input v-model="SearchNmrhVal" placeholder="" class="input-with-Nmr" @input="inputSearch"
+                                <el-input v-model="SearchNmrhVal" placeholder="" class="input-with-Nmr" @input="enterSearch_Nmr"
                                   @keyup.enter="enterSearch_Nmr"></el-input>
                               </el-col>
                             </div>
@@ -93,7 +93,7 @@
                           <div class="input-col">
                               <el-col :span="10">
                                 <span style="font-size: 15px; color:white">描述</span>
-                                <el-input  v-model="SearchDesVal" placeholder="" class="input-with-dsc" @input="inputSearch"
+                                <el-input  v-model="SearchDesVal" placeholder="" class="input-with-dsc" @input="enterSearch_dsc"
                                   @keyup.enter="enterSearch_dsc" width="120"></el-input>
                               </el-col>
                             </div>
@@ -429,9 +429,9 @@ const enterSearch_dsc = () => {
   }
 }
 
-const inputSearch = () => {
-    currentTableData.value = tableDataCopy;
-}
+// const inputSearch = () => {
+//     currentTableData.value = tableDataCopy;
+// }
 
 const inputSearch_device=()=>{
   SearchDeviceVal.value=selectedOption.value;
