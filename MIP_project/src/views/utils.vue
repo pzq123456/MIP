@@ -5,11 +5,13 @@
     <button id="btn4">触发成功状态</button>
     <button id="btn5">触发处理状态</button>
 
+    <LoadingBar id="loadingbar"></LoadingBar>
 <StatusBar :statuscode="statuscode" :statusmsg="statusmsg"></StatusBar>
 </template>
 
 <script setup>
 import StatusBar from '../components/UtilsCom/StatusBar.vue'
+import LoadingBar from '../components/UtilsCom/LoadingBar.vue'
 import { ref, computed, watch ,onMounted} from 'vue';
 // change the status code randomly reactively when the button is clicked 
 
@@ -57,6 +59,5 @@ onMounted(()=>{
 </script>
 
 <style scoped>
-
 
 </style>

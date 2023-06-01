@@ -6,6 +6,7 @@ import Segment from './views/Segment.vue'
 import Table from './views/Table.vue'
 import Utils from './views/Utils.vue'
 import D3Ver_demo from './views/D3Ver_demo.vue'
+
 const routes = [
     { path: '/', component: HelloWorld },
     { path: '/about', component: HelloWorld },
