@@ -33,6 +33,8 @@
     background: linear-gradient(90deg, #00ccff, #d500f9);
     border-radius: 5px;
     animation: move-ani 2s linear infinite;
+    /* blur */
+    filter: blur(10px);
 }
 
 @keyframes move-ani {

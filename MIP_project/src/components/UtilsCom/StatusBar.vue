@@ -1,5 +1,4 @@
 <template>
-    
     <div id="Bar" :style="color">
 
            <div id="statusMsg">
@@ -103,6 +102,8 @@ const color = computed(() => {
         flex-direction: row;
         justify-content: space-between;
 
+        border-top: 2px solid #dfdfdf;
+
     }
 
     #statusMsg{
@@ -117,4 +118,6 @@ const color = computed(() => {
     #icons:hover{
         background-color: rgba(48, 47, 47, 0.658);
     }
+
+
 </style>
