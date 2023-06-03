@@ -1,5 +1,8 @@
 <template>
 
+    <div class="backblur">
+
+    </div>
     <div class="loading_card" >
         <div></div>
         <div class="loading_text"></div>
@@ -79,7 +82,6 @@
 }
 
 .loading_card{
-      /* make itself in the parent element's center  */
     position: absolute;
     top: 50%;
     left: 50%;
@@ -87,5 +89,15 @@
     width: 600px;
     height: 200px;
 }
+
+.backblur{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.22);
+}
+
 
 </style>

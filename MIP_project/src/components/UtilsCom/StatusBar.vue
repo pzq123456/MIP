@@ -5,12 +5,12 @@
                 <p>{{ statusmsg }}</p>
 
            </div>
+           <div></div>
 
            <div id="icons">
                 <el-icon :size="30">
                 <Bell />
                 </el-icon>
-
             </div>
     </div>          
 </template>
@@ -48,7 +48,7 @@ const color = computed(() => {
         let res = {
             "background-color": "#faad14",
             "transition": "all 0.5s ease-in-out",
-            "border": "1px solid #df1515 ",
+            "border-top": "2px solid #df1515 ",
         };
 
         return res
@@ -74,8 +74,9 @@ const color = computed(() => {
     else if (props.statuscode == 4) {
         // 处理中
         let res = {
-            "background-color": "#778899",
+
             "transition": "all 0.5s ease-in-out",
+            "background-color": "#778899",
         };
 
         return res
@@ -102,7 +103,7 @@ const color = computed(() => {
         flex-direction: row;
         justify-content: space-between;
 
-        border-top: 2px solid #dfdfdf;
+        border-top: 2px solid #c0b6b6;
 
     }
 
@@ -118,6 +119,5 @@ const color = computed(() => {
     #icons:hover{
         background-color: rgba(48, 47, 47, 0.658);
     }
-
 
 </style>
