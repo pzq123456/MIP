@@ -46,7 +46,7 @@ const toggleDark = useToggle(isDark)
     padding: 10px;
     box-sizing: border-box;
     border-radius: 10px;
-    background: linear-gradient(135deg, #d9dfe994 0%, #dcbae95a 100%);
+    background: linear-gradient(135deg, #81aff8df 0%, #b609f522 100%);
     box-shadow: 0 0 10px rgba(255, 254, 254, 0.329);
 }
 
