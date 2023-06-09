@@ -68,10 +68,26 @@ Model(
     ModelInstitution: varchar(100),
     )
 ```
-
-`动态实体`:
-- 自动分割任务(AutoSegmentationTask)：
+- 数据处理操作（包括数据预处理与后处理，可相互叠加）
 ```sql
+DataProcessingOperation(
+    DataProcessingOperationID: int,
+    DataProcessingOperationName: varchar(100),
+    DataProcessingOperationDescription: varchar(100),
+    DataProcessingOperationPath: varchar(100),
+    IsPreprocessing: bool,
+    IsPostprocessing: bool,
+    IsModel: bool,
+    ModelID: int,
+    InputFormat: varchar(20),
+    OutputFormat: varchar(20),
+    )
+```
+`动态实体`:
+- 自动分割任务(AutoSegmentationTask)
+
+```sql
+
 AutoSegmentationTask(
     AutoSegmentationTaskID: int,
     PatientID: int,
@@ -82,8 +98,10 @@ AutoSegmentationTask(
     AutoSegmentationTaskStatus: varchar(20),
     AutoSegmentationTaskResult: varchar(100),
     )
+    
 ```
 - 自动分割结果(AutoSegmentationResult)：
+
 ```sql
 AutoSegmentationResult(
     AutoSegmentationResultID: int,
@@ -128,10 +146,21 @@ ModelPublishTask(
     ModelPublishTaskStatus: varchar(20),
     )
 ```
+数据流水管线(DataPipeline)：
+```sql
+DataPipeline(
+    DataPipelineID: int,
+    DataPipelineName: varchar(100),
+    DataPipelineDescription: varchar(100),
+    DeatilProcess: varchar(100),
+    DataPipelineStatus: varchar(20),
+    )
+```
 #### 2. 实体之间的关系及动态实体的生命周期
 在该系统中，我们围绕医疗影像序列(Series)这一实体进行建模，该实体与其他实体的关系如下：
 - 医疗影像序列(Series)与医疗影像统计信息(Statistics)是一对一关系，一个医疗影像序列对应一条医疗影像统计信息。
-- 用户通过调用自动分割任务(AutoSegmentationTask)来使用模型(Model)对医疗影像序列(Series)进行自动分割，一个自动分割任务对应一个模型，一个自动分割任务对应一个医疗影像序列。自动分割任务(AutoSegmentationTask)与自动分割结果(AutoSegmentationResult)是一对一关系，一个自动分割任务对应一个自动分割结果。
+- 我们使用数据操作实体(DataProcessingOperation)来描述数据处理操作，数据处理操作既可以只包含简单的处理脚本也可以包含模型(Model)。在实际实现中，我们的数据流水管线是一个包含一系列数据处理操作的队列，数据流水管线(DataPipeline)与数据处理操作(DataProcessingOperation)是一对多关系，一个数据流水管线对应多个数据处理操作。
+- 用户通过调用自动分割任务(AutoSegmentationTask)来使用模型(Model)对医疗影像序列(Series)进行自动分割。自动分割任务通过构造数据流水管线(DataPipeline)来实现，数据流水管线(DataPipeline)是由数据处理操作(DataProcessingOperation)构成的，数据处理操作(DataProcessingOperation)包括数据预处理与后处理，可相互叠加。一个数据流水管线对应一个自动分割任务，一个自动分割任务对应一个医疗影像序列。自动分割任务(AutoSegmentationTask)与自动分割结果(AutoSegmentationResult)是一对一关系，一个自动分割任务对应一个自动分割结果。自动分割的过程附带进行病理统计，因此自动分割结果(AutoSegmentationResult)与医疗影像统计信息(Statistics)是一对一关系，一个自动分割结果对应一条医疗影像统计信息。
 - 用户可以调用手动修饰任务(ManualModificationTask)对自动分割结果(AutoSegmentationResult)进行手动修饰，一个手动修饰任务对应一个自动分割结果，一个手动修饰任务对应一个医疗影像序列。手动修饰任务(ManualModificationTask)与手动修饰结果(ManualModificationResult)是一对一关系，一个手动修饰任务对应一个手动修饰结果。手动修饰的过程附带进行病理统计，因此手动修饰结果(ManualModificationResult)与医疗影像统计信息(Statistics)是一对一关系，一个手动修饰结果对应一条医疗影像统计信息。
 - 用户可以调用模型发布任务(ModelPublishTask)将模型(Model)发布到系统中，一个模型发布任务对应一个模型。一次模型发布任务执行成功后创建一个模型，一个模型实体对应一个模型发布任务。模型发布任务(ModelPublishTask)与模型(Model)是一对一关系，一个模型发布任务对应一个模型。系统可以在模型列表中显示所有已发布的模型。
 
@@ -152,23 +181,26 @@ classDiagram
         SeriesID: int
         StatisticsResult: varchar(100)
     }
-    class Model{
-        ModelID: int
-        ModelName: varchar(100)
-        ModelType: varchar(20)
-        ModelDescription: varchar(100)
-        ModelPath: varchar(100)
-        ...
+    class DataProcessingOperation{
+        DataProcessingOperationID: int
+        DataProcessingOperationName: varchar(100)
+        DataProcessingOperationDescription: varchar(100)
+        DataProcessingOperationScript: varchar(100)
+        DataProcessingOperationStatus: varchar(20)
+    }
+    class DataPipeline{
+        DataPipelineID: int
+        DataPipelineName: varchar(100)
+        DataPipelineDescription: varchar(100)
+        DeatilProcess: varchar(100)
+        DataPipelineStatus: varchar(20)
     }
     class AutoSegmentationTask{
         AutoSegmentationTaskID: int
-        PatientID: int
         SeriesID: int
-        ModelID: int
         AutoSegmentationTaskDate: date
         AutoSegmentationTaskTime: time
         AutoSegmentationTaskStatus: varchar(20)
-        AutoSegmentationTaskResult: varchar(100)
     }
     class AutoSegmentationResult{
         AutoSegmentationResultID: int
@@ -180,13 +212,10 @@ classDiagram
     }
     class ManualModificationTask{
         ManualModificationTaskID: int
-        PatientID: int
-        SeriesID: int
-        ModelID: int
+        AutoSegmentationResultID: int
         ManualModificationTaskDate: date
         ManualModificationTaskTime: time
         ManualModificationTaskStatus: varchar(20)
-        ManualModificationTaskResult
     }
     class ManualModificationResult{
         ManualModificationResultID: int
@@ -203,16 +232,23 @@ classDiagram
         ModelPublishTaskTime: time
         ModelPublishTaskStatus: varchar(20)
     }
+    class Model{
+        ModelID: int
+        ModelName: varchar(100)
+        ModelDescription: varchar(100)
+        ModelPath: varchar(100)
+        ModelStatus: varchar(20)
+    }
+
     Series "1" -- "1" Statistics
-    AutoSegmentationTask "1" -- "1" AutoSegmentationResult
-    ManualModificationTask "1" -- "1" ManualModificationResult
-    ManualModificationResult "1" -- "1" Statistics
+    DataPipeline "1" -- "n" DataProcessingOperation
+    DataPipeline "1" -- "1" Series
+
     ModelPublishTask "1" -- "1" Model
+    AutoSegmentationTask "1" -- "1" DataPipeline
     AutoSegmentationTask "1" -- "1" Series
     AutoSegmentationTask "1" -- "1" Model
-    ManualModificationTask "1" -- "1" Series
-    ManualModificationTask "1" -- "1" Model
-    
+    ManualModificationTask "1" -- "1" AutoSegmentationResult
 ```
 
 ## 四、实验成果
