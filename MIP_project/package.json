@@ -18,6 +18,8 @@
     "dicomweb-client": "^0.10.2",
     "element-plus": "^2.3.3",
     "moment": "^2.29.4",
+    "nrrd-js": "^0.2.1",
+    "pako": "^2.1.0",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
   },
