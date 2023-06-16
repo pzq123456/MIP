@@ -1,7 +1,115 @@
 # 项目文档
 
 > 本文档中，我会约定一些开发规范、注意事项，以及经验总结。
+## Notes
+### class图
+1. visibility
+    - public : +
+    - private  : -
+    - protected : #
+    - package : ~
 
+```mermaid
+    classDiagram
+        class A{
+            +public
+            -private
+            #protected
+            ~package
+        }
+```
+
+2. relation
+    - inheritance(继承) : 空心三角形
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A <|-- B
+    ```
+
+    - association(关联) : 实心线
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A -- B
+    ```
+
+    - aggregation(聚合) : 空心菱形
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A o-- B
+    ```
+    - composition(组合) : 实心菱形
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A *-- B
+    ```
+
+    - dependency(依赖) : 虚线箭头
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A ..> B
+    ```
+
+3. multiplicity(多重性) 
+   - 0..1 : 0或1
+   - 0..* : 0或多个
+   - 1..* : 1或多个
+   - 1 : 1个
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A "0..1" -- "0..*" B
+    ```
+4. role name(角色名)
+    - 用于标识关联的角色
+    - 位于关联线上
+    - 位于关联线的中间
+    - 位于关联线的两端
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A "0..1" -- "0..*" B : role name
+    ```
+5. class name(类名)
+    - 位于类的上方
+    - 位于类的中间
+    - 位于类的下方
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A "0..1" -- "0..*" B : role name
+    ```
+6. attribute(属性)
+    - 位于类的中间
+    - 位于类的下方
+    - 位于类的上方
+
+    ```mermaid
+        classDiagram
+            class A
+            class B
+            A "0..1" -- "0..*" B : role name
+    ```
 ## 开发任务(New)
 ### 前端
 - 表格渲染及大部分数据录入对话框等: 覃仕锋 
