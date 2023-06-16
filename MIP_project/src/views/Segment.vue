@@ -47,6 +47,8 @@ const {
   ZoomTool,
   StackScrollMouseWheelTool,
   utilities: cstUtils,
+  ProbeTool, // ProbeTool使您可以通过在该位置放置探针来获得基本的体素值。
+  getToolState
 } = cornerstoneTools;
 
 const { MouseBindings } = csToolsEnums;
@@ -98,6 +100,7 @@ const brushInstanceNames = {
     CircleScissorsTool.toolName,
     SphereScissorsTool.toolName,
     PaintFillTool.toolName,
+    ProbeTool.toolName,
   ];
 
 onMounted(() => {
@@ -167,6 +170,7 @@ onMounted(() => {
         });
       }
     },
+    id: 'segmentation-tool-dropdown',
   });
 
   const thresholdOptions = ['CT Fat: (-150, -70)', 'CT Bone: (200, 1000)'];
@@ -285,6 +289,8 @@ async function run(element1,element2,element3) {
   cornerstoneTools.addTool(SphereScissorsTool);
   cornerstoneTools.addTool(PaintFillTool);
   cornerstoneTools.addTool(BrushTool);
+  cornerstoneTools.addTool(ProbeTool);
+
 
   // Define tool groups to add the segmentation display tool to
   const toolGroup = ToolGroupManager.createToolGroup(toolGroupId);
@@ -300,6 +306,8 @@ async function run(element1,element2,element3) {
   toolGroup.addTool(CircleScissorsTool.toolName);
   toolGroup.addTool(SphereScissorsTool.toolName);
   toolGroup.addTool(PaintFillTool.toolName);
+  toolGroup.addTool(ProbeTool.toolName);
+
   toolGroup.addToolInstance(
     brushInstanceNames.CircularBrush,
     BrushTool.toolName,
@@ -441,5 +449,4 @@ async function run(element1,element2,element3) {
 </script>
 
 <style scoped>
-
 </style>
