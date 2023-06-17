@@ -174,6 +174,7 @@ const tools = [
     ZoomTool,
     StackScrollMouseWheelTool,
 ]
+
 onMounted(() => {
     // using ref to get 'content' element
     const content = ref(document.getElementById('content'));
