@@ -41,7 +41,9 @@
                                     <span style="font-size: 13px; color: rgb(145, 185, 205);">序列</span>
                             </div>
                             <div class="Menu-tool-item">
-                                <D3Coms></D3Coms>
+                                <ToolBar :renderingEngineId="renderingEngineId" :viewportId="viewportId"
+                                :toolGroupId="toolGroupId" :viewport="viewport"
+                                ></ToolBar> 
                             </div>
                             <div class="Menu-tools-item">
                                     <el-button type="primary" style="margin-left: 16px" @click="isOpenDrawerR" id="button-drawerR">
@@ -49,7 +51,7 @@
                                             </el-button>
                                 </div >
                                 <div class="Menu-tools-item">
-                                    <!-- <el-dropdown>
+                                    <el-dropdown>
                                 <el-button type="primary" circle style="margin-left: 16px;background: rgb(156,206,249);" >
             
             <el-icon><MoreFilled style="width: 1em; height: 1em; color: black; " size="small"/></el-icon>
@@ -63,7 +65,7 @@
               <el-dropdown-item>Action 5</el-dropdown-item>
             </el-dropdown-menu>
           </template>
-        </el-dropdown> -->
+        </el-dropdown>
                                     </div >
                                 <div class="Menu-tools-item">
                                     <el-button type="primary" round style="margin-left: 16px;width: 70px;height: 30px;"  @click="isOpenDrawerR" id="button-drawerR">
@@ -82,7 +84,6 @@
                     <div id="drawer-left">
                         <el-aside v-model="drawerL" v-if="drawerL"  >
                             <span>左侧信息</span>
-                             <!-- <div id="content"></div> -->
                             <!-- <slot name="content"></slot> -->
                         </el-aside>
                     </div>
@@ -109,11 +110,27 @@ import {
 } from 'vue';
 // 引入element-plus
 import { DocumentCopy, Search, ChromeFilled, Memo, CircleCloseFilled, ArrowDownBold, Menu } from '@element-plus/icons-vue';
-
-// 引入D3Ver组件
-import D3Coms from '../components/D3VerComs/D3Coms.vue';
-
-import D2Coms from './D2Ver.vue'
+// 引入cornerstoneTools
+import * as cornerstoneTools from '@cornerstonejs/tools';
+// 引入 cornerstonejs_core
+import {
+    RenderingEngine,
+    Enums,
+    volumeLoader,
+    getRenderingEngine,
+    cache,
+} from '@cornerstonejs/core';
+// 引入工具栏组件
+import ToolBar from '../components/D3VerComs/ToolBar.vue';
+import {
+    initDemo,
+    createImageIdsAndCacheMetaData,
+    setTitleAndDescription,
+    addButtonToToolbar,
+    addDropdownToToolbar,
+    setCtTransferFunctionForVolumeActor,
+    setPetColorMapTransferFunctionForVolumeActor,
+} from '../helpers'
 
 const drawerL = ref(false)
 const drawerR = ref(false)
@@ -158,6 +175,114 @@ if(drawer_type.value=="el_drawerL"){
 }
 
 
+// 定义数据
+// 定义一些公共变量
+
+const viewportId = 'CT_STACK';
+const renderingEngineId = '2D';
+const toolGroupId = 'STACK_TOOL_GROUP_ID';
+const { ViewportType } = Enums;
+const { MouseBindings } = csToolsEnums;
+// 定义一些工具
+const {
+    LengthTool,
+    ProbeTool,
+    RectangleROITool,
+    EllipticalROITool,
+    CircleROITool,
+    BidirectionalTool,
+    AngleTool,
+    CobbAngleTool,
+    ToolGroupManager,
+    ArrowAnnotateTool,
+    ZoomTool,
+    StackScrollMouseWheelTool,
+    Enums: csToolsEnums,
+} = cornerstoneTools;
+onMounted(() => {
+    // using ref to get 'content' element
+    const content = ref(document.getElementById('content'));
+    const element = document.createElement('div');
+    // Disable the default context menu
+    element.oncontextmenu = (e) => e.preventDefault();
+    element.id = 'cornerstone-element';
+    element.style.width = '500px';
+    element.style.height = '500px';
+    // and then append the element to 'content'
+    const container = ref(document.getElementById('demo-toolbar')); // 获取toolbar元素
+    content.value.appendChild(element);
+
+    run(element);
+});
+
+onUnmounted(() => {
+    // Get the rendering engine
+    const renderingEngine = getRenderingEngine(renderingEngineId);
+
+    // Get the stack viewport
+    const viewport = (
+        renderingEngine.getViewport(viewportId)
+    );
+    // console.log(viewport);
+    cache.purgeCache(); // 清除缓存
+    // distory the tool group
+    cornerstoneTools.destroy();
+    renderingEngine.disableElement(viewportId);
+
+    // Remove the viewport from the DOM
+    viewport.element.remove();
+    renderingEngine.destroy();
+
+});
+
+/**
+ * Runs the demo
+ */
+async function run(element) {
+    // Init Cornerstone and related libraries
+    await initDemo();
+    // selectedToolName = newSelectedToolName;
+    // Get Cornerstone imageIds and fetch metadata into RAM
+    const imageIds = await createImageIdsAndCacheMetaData({
+        StudyInstanceUID:
+            '1.3.6.1.4.1.14519.5.2.1.7009.2403.334240657131972136850343327463',
+        SeriesInstanceUID:
+            '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561',
+        wadoRsRoot: 'https://d3t6nz73ql33tx.cloudfront.net/dicomweb',
+    });
+
+    // Instantiate a rendering engine
+
+    const renderingEngine = new RenderingEngine(renderingEngineId);
+    // Create a stack viewport
+    const viewportInput = {
+        viewportId,
+        type: ViewportType.STACK,
+        element,
+        defaultOptions: {
+            background: [0.2, 0, 0.2],
+        },
+    };
+    renderingEngine.enableElement(viewportInput);
+    // Get the stack viewport that was created
+    const viewport = (
+        renderingEngine.getViewport(viewportId)
+    );
+
+
+    // Define a stack containing a single image
+
+    // 不同的imageIds[10]对应不同的影像，就跟stack一样叠放上去
+    const stack = [imageIds[10]];
+    console.log(imageIds[15]);
+    // Set the stack on the viewport
+    await viewport.setStack(stack);
+    // Set the VOI of the stack
+    viewport.setProperties({ voiRange: ctVoiRange });
+    // Render the image
+    viewport.render();
+    renderingEngine.render();
+}
 
 </script>
 <style scoped>

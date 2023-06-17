@@ -82,7 +82,6 @@ AngleTool.toolName,
 CobbAngleTool.toolName,
 ArrowAnnotateTool.toolName,
 ];
-// 记录选择的工具m
 let selectedToolName = toolsNames[0];
 
 onMounted(() => {
