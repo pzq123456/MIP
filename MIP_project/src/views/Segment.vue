@@ -177,7 +177,7 @@ onMounted(() => {
 
   addDropdownToToolbar({
     container : container.value,
-    options: { values: thresholdOptions, defaultValue: thresholdOptions[0] },
+    options: { values: thresholdOptions, defaultValue: thresholdOptions[1] },
     onSelectedValueChange: (nameAsStringOrNumber) => {
       const name = String(nameAsStringOrNumber);
 

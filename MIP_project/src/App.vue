@@ -22,6 +22,7 @@ const toggleDark = useToggle(isDark)
   <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/table');">Go to table</el-button>
   <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/utils');">Go to utils</el-button>
   <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/d3ver_demo');">Go to D3Ver_demo</el-button>
+  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/segpanel');">Go to SegPanel</el-button>
   <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="toggleDark()">暗黑模式</el-button>
 
   
