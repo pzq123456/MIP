@@ -1,81 +1,122 @@
 <template>
     <div id="demo-toolbar">
         <el-row class="mb-4">
-            <el-button>Default</el-button>
-             <el-tooltip
-                effect="light"
-                content="长度测量">
-            <el-button class="Measurement-tool" type="primary" @Click="add_Tool(LengthTool.toolName)">长度测量 |
-                <el-dropdown>
-                            <el-button class="dropdown-btn" type="primary" circle style="margin-left: 16px;background: rgb(156,206,249);" >
-                            <el-icon><MoreFilled style="width: 1em; height: 1em; color: black; " size="small"/></el-icon>
-                          </el-button>
-                          <template #dropdown>
-                            <el-dropdown-menu>
-                              <el-dropdown-item>
-                                <el-tooltip
-                                effect="light"
-                                content="双向长度">
-                                <el-button type="primary" @Click="add_Tool(BidirectionalTool.toolName)">双向长度</el-button>
-                            </el-tooltip>
-                              </el-dropdown-item>
-                              <el-dropdown-item>
-                                <el-button type="primary" @Click="add_Tool(CircleROITool.toolName)">圆</el-button>
-                              </el-dropdown-item>
-                              <el-dropdown-item>Action 3</el-dropdown-item>
-                              <el-dropdown-item>Action 4</el-dropdown-item>
-                              <el-dropdown-item>Action 5</el-dropdown-item>
-                            </el-dropdown-menu>
-                          </template>
-                        </el-dropdown>
-                </el-button>
-            </el-tooltip>
-            <!-- <el-button class="Measurement-tool" type="primary" @Click="add_Tool(LengthTool.toolName)">长度测量 |
-            <el-dropdown>
-                        <el-button class="dropdown-btn" type="primary" circle style="margin-left: 16px;background: rgb(156,206,249);" >
-                        <el-icon><MoreFilled style="width: 1em; height: 1em; color: black; " size="small"/></el-icon>
-                      </el-button>
-                      <template #dropdown>
-                        <el-dropdown-menu>
-                          <el-dropdown-item>
-                            <el-button type="primary" @Click="add_Tool(BidirectionalTool.toolName)">双向长度</el-button>
-                          </el-dropdown-item>
-                          <el-dropdown-item>
-                            <el-button type="primary" @Click="add_Tool(CircleROITool.toolName)">圆</el-button>
-                          </el-dropdown-item>
-                          <el-dropdown-item>Action 3</el-dropdown-item>
-                          <el-dropdown-item>Action 4</el-dropdown-item>
-                          <el-dropdown-item>Action 5</el-dropdown-item>
-                        </el-dropdown-menu>
-                      </template>
-                    </el-dropdown>
-            </el-button> -->
-
-             <!-- <el-tooltip
-                effect="light"
-                content="放大镜">
+            <el-button-group>
+                <el-tooltip
+                        effect="light"
+                        content="长度测量">
+                        <el-button class="Measurement-tool" type="primary"     @Click="add_Tool(LengthTool.toolName)"> 
+                        </el-button>
+                </el-tooltip>
+                <el-dropdown trigger="click">
+                                <el-button class="dropdown-btn" type="primary" circle  >
+                                <!-- <el-icon><MoreFilled style="width: 1em; height: 1em; color: black; " size="small"/></el-icon> -->
+                                <el-icon><ArrowDownBold /></el-icon>
+                              </el-button>
+                              <template #dropdown>
+                                <el-dropdown-menu>
+                                  <el-dropdown-item>
+                                    <el-tooltip
+                                    effect="light"
+                                    content="双向长度">
+                                    <el-button type="primary" @Click="add_Tool(BidirectionalTool.toolName)"></el-button>
+                                </el-tooltip>
+                                  </el-dropdown-item>
+                                  <el-dropdown-item>
+                                    <el-tooltip
+                                        effect="light"
+                                        content="圆">
+                                    <el-button type="primary" @Click="add_Tool(CircleROITool.toolName)"></el-button>
+                                    </el-tooltip>
+                                  </el-dropdown-item>
+                                  <el-dropdown-item>
+                                    <el-button></el-button>
+                                    <span>双向</span>
+                                  </el-dropdown-item>
+                                  <el-dropdown-item>Action 4</el-dropdown-item>
+                                  <el-dropdown-item>Action 5</el-dropdown-item>
+                                </el-dropdown-menu>
+                              </template>
+                            </el-dropdown>
+            </el-button-group>
+           
             
-            </el-tooltip> -->
-            <el-button type="success" @Click="add_Tool(ZoomTool.toolName)" >放大</el-button>
-            <el-button type="success" @Click="clear_Tool()" >恢复鼠标</el-button>
+                
+                <el-tooltip effect="light" content="放大">
+            <el-button type="success" @Click="add_Tool(ZoomTool.toolName)" ></el-button>
+                </el-tooltip>
+                <el-tooltip effect="light" content="恢复鼠标">
+                    <el-button type="success" @Click="clear_Tool()" ></el-button>
+                </el-tooltip>
+            
             <!-- <el-button type="primary" @Click="add_Tool(BidirectionalTool.toolName)">双向长度</el-button> -->
             <!-- <el-button type="primary" @Click="add_Tool(CircleROITool.toolName)">圆</el-button> -->
-            <el-button type="primary" @Click="add_Tool(CircleScissorsTool.toolName)">圆分割</el-button>
+
+            <el-tooltip
+                        effect="light"
+                        content="圆分割">
+            <el-button type="primary" @Click="add_Tool(CircleScissorsTool.toolName)"></el-button>
+            </el-tooltip>
             <el-tooltip
             effect="light"
             content="放大镜">
-            <el-button type="primary" @Click="add_Tool(MagnifyTool.toolName)">放大镜</el-button>
+            <el-button type="primary" @Click="add_Tool(MagnifyTool.toolName)"></el-button>
         </el-tooltip>
         
             <el-tooltip
                     effect="light"
                     content="箭头注释">
-            <el-button type="primary" @Click="add_Tool(ArrowAnnotateTool.toolName)">箭头注释</el-button>
+            <el-button type="primary" @Click="add_Tool(ArrowAnnotateTool.toolName)"></el-button>
                 </el-tooltip>
-                <el-button type="primary" @Click="add_Tool(PanTool.toolName)">平移</el-button>
-                <el-button type="primary" @Click="add_Tool(WindowLevelTool.toolName)"> WindowLevelTool</el-button>
-            
-            
+                <el-tooltip
+                        effect="light"
+                        content="平移">
+                <el-button type="primary" @Click="add_Tool(PanTool.toolName)"></el-button>
+                </el-tooltip>
+                 <el-tooltip
+                            effect="light"
+                            content="WindowLevelTool">
+                <el-button type="primary" @Click="add_Tool(WindowLevelTool.toolName)"></el-button>
+                 </el-tooltip>
+
+                <el-button-group>
+                    <el-tooltip
+                            effect="light"
+                            content="长度测量">
+                            <el-button class="Measurement-tool" type="primary"     @Click="add_Tool(LengthTool.toolName)"> 
+                            </el-button>
+                    </el-tooltip>
+                    <el-dropdown trigger="click">
+                                    <el-button class="dropdown-btn" type="primary" circle  >
+                                    <!-- <el-icon><MoreFilled style="width: 1em; height: 1em; color: black; " size="small"/></el-icon> -->
+                                    <el-icon><ArrowDownBold /></el-icon>
+                                  </el-button>
+                                  <template #dropdown>
+                                    <el-dropdown-menu>
+                                      <el-dropdown-item>
+                                        <el-tooltip
+                                        effect="light"
+                                        content="双向长度">
+                                        <el-button type="primary" @Click="add_Tool(BidirectionalTool.toolName)"></el-button>
+                                    </el-tooltip>
+                                      </el-dropdown-item>
+                                      <el-dropdown-item>
+                                        <el-tooltip
+                                            effect="light"
+                                            content="圆">
+                                        <el-button type="primary" @Click="add_Tool(CircleROITool.toolName)"></el-button>
+                                        </el-tooltip>
+                                      </el-dropdown-item>
+                                      <el-dropdown-item>
+                                        <el-button></el-button>
+                                        <span>双向</span>
+                                      </el-dropdown-item>
+                                      <el-dropdown-item>Action 4</el-dropdown-item>
+                                      <el-dropdown-item>Action 5</el-dropdown-item>
+                                    </el-dropdown-menu>
+                                  </template>
+                                </el-dropdown>
+                </el-button-group>
         </el-row>
     </div>
     <!-- <div id="content"></div> -->
@@ -83,6 +124,7 @@
 </template>
 <script setup>
 import * as cornerstoneTools from '@cornerstonejs/tools';
+
 // 定义一些工具
 const {
     WindowLevelTool,
@@ -321,7 +363,17 @@ async function run(element) {
 </script>
 <style scoped>
 .Measurement-tool {
-    background: black;
+    /* background: black; */
 }
-
+.el-button{
+    width: 30px;
+    height: 30px;
+    background: rgb(4,28,74);
+}
+.el-button-group{
+    
+}
+.el-dropdown-item>span{
+    margin-right: 10px;
+}
 </style>

@@ -9,9 +9,13 @@
                             <el-icon :size="40">
                             <ChromeFilled   style="width: 1e··m; height: 1em; " size="large" />
                             </el-icon>
-                    Open Health Imaging Foundation 
+                    Open Health Imaging Foundation
                     <el-divider direction="vertical" style="background: rgb(32,165,214);"/>
-                    <el-button type="primary" siza="small" plain @click="$router.push('/table');">Go to table</el-button>
+                    
+                    <el-button type="primary" siza="small" plain @click="$router.push('/table');">
+                    <el-icon><ArrowLeftBold /></el-icon>
+                </el-button>
+                    <span>Go to table</span>
                         </p>
                         
                         <div class="toolbar">
@@ -43,27 +47,13 @@
                             <div class="Menu-tool-item">
                                 <D3Coms></D3Coms>
                             </div>
-                            <div class="Menu-tools-item">
+                            <!-- <div class="Menu-tools-item">
                                     <el-button type="primary" style="margin-left: 16px" @click="isOpenDrawerR" id="button-drawerR">
                                                 打开右侧抽屉
                                             </el-button>
-                                </div >
+                                </div > -->
                                 <div class="Menu-tools-item">
-                                    <!-- <el-dropdown>
-                                <el-button type="primary" circle style="margin-left: 16px;background: rgb(156,206,249);" >
-            
-            <el-icon><MoreFilled style="width: 1em; height: 1em; color: black; " size="small"/></el-icon>
-          </el-button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>Action 1</el-dropdown-item>
-              <el-dropdown-item>Action 2</el-dropdown-item>
-              <el-dropdown-item>Action 3</el-dropdown-item>
-              <el-dropdown-item>Action 4</el-dropdown-item>
-              <el-dropdown-item>Action 5</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown> -->
+
                                     </div >
                                 <div class="Menu-tools-item">
                                     <el-button type="primary" round style="margin-left: 16px;width: 70px;height: 30px;"  @click="isOpenDrawerR" id="button-drawerR">
@@ -111,7 +101,7 @@ import {
 import { DocumentCopy, Search, ChromeFilled, Memo, CircleCloseFilled, ArrowDownBold, Menu } from '@element-plus/icons-vue';
 
 // 引入D3Ver组件
-import D3Coms from '../components/D3VerComs/D3Coms.vue';
+import D3Coms from '../components/D3VerComs/D3ToolComs.vue';
 
 import D2Coms from './D2Ver.vue'
 
@@ -132,7 +122,7 @@ if(drawer_type.value=="el_drawerL"){
 
         }
         else {
-            drawer_width.value = "200px";
+            drawer_width.value = "300px";
             el_drawerL.style.width = drawer_width.value;
             // myElement.style.background = " seagreen"
             drawerL.value = true;
@@ -150,7 +140,7 @@ if(drawer_type.value=="el_drawerL"){
 
     }
     else {
-        drawer_width.value = "200px";
+        drawer_width.value = "300px";
         el_drawerR.style.width = drawer_width.value;
         // myElement.style.background = " seagreen"
         drawerR.value = true;
@@ -173,7 +163,7 @@ if(drawer_type.value=="el_drawerL"){
     width: 0px;
     height: 500px;
     background: seagreen;
-transition: width 1s ease-in-out;
+transition: width 0.3s ease-in-out;
 }
 
 .container2-main-main {
@@ -204,8 +194,8 @@ align-items: center;
 }
 .Menu-tools-item{
     display: flex;
-     flex-direction: column; /* 垂直排布 */
-     justify-content: center; /* 水平居中 */
+     /* flex-direction: column;  */
+     justify-content:space-between; /* 水平居中 */
   align-items: center; /* 垂直居中 */
 
 }

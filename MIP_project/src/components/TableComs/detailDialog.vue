@@ -4,26 +4,39 @@
     <el-dialog v-model="dialogVisable" :title="'详情病例'" draggable width="80%" @close="$emit('closeDetails')" 
     >
         <el-row class="mb-4">
-                <el-button type="primary" :icon="Open" round size="large" @click="$router.push('/d3ver_demo');" >Basic Viewer </el-button>
-            <!-- <el-button type="danger">Danger</el-button> -->
+                <el-button type="primary"  round size="large" @click="$router.push('/d3ver_demo');" >
+                    <span>Basic Viewer</span>
+                    <el-icon><Expand /></el-icon>
+                 </el-button>
+            <el-button type="primary"  round size="large" @click="$router.push('/d3ver_demo');" disabled >
+                        <span>Basic Viewer</span>
+                        <el-icon><Expand /></el-icon>
+                     </el-button>
+                     <el-button type="primary"  round size="large" @click="$router.push('/d3ver_demo');" disabled >
+                        <span>Basic Viewer</span>
+                        <el-icon><Expand /></el-icon>
+                     </el-button>
         </el-row>
-        <!-- 添加details表格 -->
-        <el-table :data="tableDetails"  style="width: 100%" size="large" height="480px" :row-key="row => row.id"
-        :default-sort="{ prop: 'ser', order: 'descending' }" >
-    <el-table-column prop="description" v-model="form.description" label="Description" width="300" sortable />
-        <el-table-column prop="series" v-model="form.series" label="Series" width="300" sortable />
-        <el-table-column prop="device" v-model="form.device" label="成像设备" width="300"  sortable/>
-        <el-table-column prop="instances" v-model="form.instances" label="实例" width="200" />
-        </el-table>
-        <el-button class="mt-4" style="width: 100%" @click="onAddItem">添加项目
-        </el-button>
-        <template #footer>
-            <span class="dialog-footer">
-                <el-button @click="closeAdd()" type="danger">取消</el-button>
-                <!-- <el-button type="primary" @click="submit">确定</el-button> -->
-            </span>
+        <el-row class="mb-5">
+            <!-- 添加details表格 -->
+            <el-table :data="tableDetails"  style="width: 100%" size="large" height="480px" :row-key="row => row.id"
+            :default-sort="{ prop: 'ser', order: 'descending' }" >
+        <el-table-column prop="description" v-model="form.description" label="Description" width="300" sortable />
+            <el-table-column prop="series" v-model="form.series" label="Series" width="300" sortable />
+            <el-table-column prop="device" v-model="form.device" label="成像设备" width="300"  sortable/>
+            <el-table-column prop="instances" v-model="form.instances" label="实例" width="200" />
+            </el-table>
+            <el-button class="mt-4" style="width: 100%" @click="onAddItem">添加项目
+            </el-button>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="closeAdd()" type="danger">取消</el-button>
+                    <!-- <el-button type="primary" @click="submit">确定</el-button> -->
+                </span>
 
-        </template>
+            </template>
+        </el-row>
+        
 
     </el-dialog>
 </template>
@@ -107,5 +120,27 @@ const dialogVisable = computed(() => props.isShow);
 // }
 </script>
 <style scoped>
-
+.el-table .el-table-column{
+    /* background: rgb(14,26,37); */
+    border: solid rgb(14,26,37) 1em;
+    color:rgb(255,255,238);
+    
+}
+.el-button{
+    background: rgb(14,26,37);
+}
+.el-dialog{
+    color: aliceblue;
+}
+.mb-4{   
+margin-bottom: 20px;
+}
+.mb-5{
+    border-top: solid rgb(12,112,149) 0.2em;
+    /* border-bottom: solid rgb(12,112,149) 0.2em; */
+    /* background: salmon; */
+}
+.el-dialog__header{
+    
+}
 </style>
