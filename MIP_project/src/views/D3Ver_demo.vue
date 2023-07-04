@@ -72,7 +72,8 @@
                     <div id="drawer-left">
                         <el-aside v-model="drawerL" v-if="drawerL"  >
                             <span>左侧信息</span>
-                             <!-- <div id="content"></div> -->
+                            <D2Ver></D2Ver>
+                            <!-- <div id="content"></div> -->
                             <!-- <slot name="content"></slot> -->
                         </el-aside>
                     </div>
@@ -102,8 +103,7 @@ import { DocumentCopy, Search, ChromeFilled, Memo, CircleCloseFilled, ArrowDownB
 
 // 引入D3Ver组件
 import D3Coms from '../components/D3VerComs/D3ToolComs.vue';
-
-import D2Coms from './D2Ver.vue'
+// import D2Coms from './D2Ver.vue'
 
 const drawerL = ref(false)
 const drawerR = ref(false)

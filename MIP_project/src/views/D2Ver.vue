@@ -37,7 +37,6 @@ import {
 
 
 import * as cornerstoneTools from '@cornerstonejs/tools';
-
 const {
   LengthTool,
   ProbeTool,

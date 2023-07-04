@@ -34,8 +34,8 @@ const {
     ZoomTool,
     StackScrollMouseWheelTool,
     Enums: csToolsEnums,
+    removeTool,
 } = cornerstoneTools;
-
 import {
     RenderingEngine,
     Enums,
