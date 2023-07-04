@@ -1,38 +1,31 @@
-<script setup>
-import {ref} from 'vue'
-import { useDark, useToggle } from '@vueuse/core'
-import 'element-plus/theme-chalk/dark/css-vars.css'
-
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
-
-</script> 
-
 <template>
+  <el-config-provider namespace="ep">
+    <BaseHeader />
+    <el-button type="primary" siza="small" plain @click="$router.push('/')">Go to Home</el-button>
+    <el-button type="primary" siza="small" plain @click="$router.push('/d2ver');">Go to D2Ver</el-button>
+    <el-button type="primary" siza="small" plain @click="$router.push('/d3ver');">Go to D3Ver</el-button>
+    <el-button type="primary" siza="small" plain @click="$router.push('/segment');">Go to Segment</el-button>
+    <el-button type="primary" siza="small" plain @click="$router.push('/utils');">Go to utils</el-button>
+    <div class="flex main-container">
+      <BaseSide />
 
-
-  <!-- 路由链接 -->
-
-<!-- add update function to d2ver and d3ver button -->
-
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/')">Go to Home</el-button>
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/d2ver');">Go to D2Ver</el-button>
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/d3ver');">Go to D3Ver</el-button>
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/segment');">Go to Segment</el-button>
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/table');">Go to table</el-button>
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/utils');">Go to utils</el-button>
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/d3ver_demo');">Go to D3Ver_demo</el-button>
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="$router.push('/segpanel');">Go to SegPanel</el-button>
-  <el-button color="#626aef" :dark="isDark" type="primary" siza="small" plain @click="toggleDark()">暗黑模式</el-button>
-
-  
-
-  <!-- 路由出口 -->
-  <!-- 路由匹配到的组件将渲染在这里 -->
-
-      <router-view />
-
+      <div w="full" py="4">
+        <router-view />
+        <!-- <Logos my="4" /> -->
+        <!-- <HelloWorld msg="Hello Vue 3 + Element Plus + Vite" /> -->
+        
+      </div>
+    </div>
+  </el-config-provider>
 </template>
-<style scoped>
 
+<style>
+#app {
+  text-align: center;
+  color: var(--ep-text-color-primary);
+}
+
+.main-container {
+  height: calc(100vh - var(--ep-menu-item-height) - 3px);
+}
 </style>

@@ -1,30 +1,42 @@
-# MIP_project
-## 建议使用的开发 IDE 配置
+# element-plus-vite-starter
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+> A starter kit for Element Plus with Vite
 
-## Project Setup
-首先进入项目目录，从根目录开始：
-```sh
-cd MIP_project
+- Preview: <https://vite-starter.element-plus.org>
+
+This is an example of on-demand element-plus with [unplugin-vue-components](https://github.com/antfu/unplugin-vue-components).
+
+> If you want to import all, it may be so simple that no examples are needed. Just follow [quickstart | Docs](https://element-plus.org/zh-CN/guide/quickstart.html) and import them.
+
+If you just want an on-demand import example `manually`, you can check [unplugin-element-plus/examples/vite](https://github.com/element-plus/unplugin-element-plus/tree/main/examples/vite).
+
+## Project setup
+
+```bash
+npm install
 ```
 
-然后执行以下命令：
+### Compiles and hot-reloads for development
 
-```sh
-npm install
-npm install
-```
-
-### 打开开发服务器
-```sh
+```bash
 npm run dev
 ```
 
-### 编译并压缩
+### Compiles and minifies for production
 
-```sh
+```bash
 npm run build
 ```
 
-> 组件式开发。单组件测试，推荐使用组合式api。
+## Usage
+
+```bash
+git clone https://github.com/element-plus/element-plus-vite-starter
+cd element-plus-vite-starter
+npm i
+npm run dev
+```
+
+### Custom theme
+
+See `src/styles/element/index.scss`.
