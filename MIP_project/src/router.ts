@@ -3,12 +3,9 @@ import HelloWorld from './components/HelloWorld.vue'
 import D2Ver from './views/D2Ver.vue'
 import D3Ver from './views/D3Ver.vue'
 import Segment from './views/Segment.vue'
-import Utils from './views/utils.vue'
-import D3Ver_demo2Vue from './views/D3Ver_demo2.vue'
-
-
-
-
+import Utils from './views/Utils.vue'
+import D3ver_demo from './views/D3Ver_demo.vue'
+import Table from './views/Table.vue'
 const routes = [
     { path: '/', component: HelloWorld },
     { path: '/about', component: HelloWorld },
@@ -16,8 +13,8 @@ const routes = [
     { path: '/d3ver', component: D3Ver },
     { path: '/segment', component: Segment },
     { path: '/utils', component: Utils },
-    { path: '/table', component: D3Ver_demo2Vue },
-
+    { path: '/d3ver_demo', component: D3ver_demo },
+    { path: '/table', component: Table },
     ]
   
   // 3. 创建路由实例并传递 `routes` 配置

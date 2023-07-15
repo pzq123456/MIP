@@ -45,7 +45,7 @@
                                     <span style="font-size: 13px; color: rgb(145, 185, 205);">序列</span>
                             </div>
                             <div class="Menu-tool-item">
-                                <D3Coms></D3Coms>
+                                <D3Coms class="D3Coms"></D3Coms>
                             </div>
                             <!-- <div class="Menu-tools-item">
                                     <el-button type="primary" style="margin-left: 16px" @click="isOpenDrawerR" id="button-drawerR">
@@ -102,8 +102,8 @@ import {
 import { DocumentCopy, Search, ChromeFilled, Memo, CircleCloseFilled, ArrowDownBold, Menu } from '@element-plus/icons-vue';
 
 // 引入D3Ver组件
+// import D3Coms from '..s'
 import D3Coms from '../components/D3VerComs/D3ToolComs.vue';
-// import D2Coms from './D2Ver.vue'
 
 const drawerL = ref(false)
 const drawerR = ref(false)
@@ -174,11 +174,11 @@ transition: width 0.3s ease-in-out;
     
 }
 .header-header1{
-    display: flex;
+display: flex;
    /* align-items: center; */
-  height: 50px;
-  border-bottom: solid 0.05em rgb(68,98,111);
-  justify-content: space-between;
+height: 50px;
+border-bottom: solid 0.05em rgb(68,98,111);
+justify-content: space-between;
 }
 .header-header1 p{
 font-size: 15px;
@@ -191,6 +191,7 @@ align-items: center;
     align-items: center;
     justify-content: space-between;
     margin-top: 20px;
+    /* top: 100px; */
 }
 .Menu-tools-item{
     display: flex;
@@ -206,5 +207,4 @@ align-items: center;
     height: 150px;
 
 }
-
 </style>

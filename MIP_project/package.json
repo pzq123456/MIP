@@ -18,6 +18,7 @@
     "dcmjs": "^0.29.8",
     "dicomweb-client": "^0.10.2",
     "element-plus": "^2.3.6",
+    "moment": "^2.29.4",
     "unplugin-auto-import": "^0.16.4",
     "vue": "^3.3.4"
   },
