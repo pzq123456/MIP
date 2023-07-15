@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Segment 开发模板</h1>
+        <h1>分割视图</h1>
     </div>
     <div id="demo-toolbar"></div>
     <div id="content" ></div>
@@ -68,7 +68,7 @@ const volumeLoaderScheme = 'cornerstoneStreamingImageVolume'; // Loader id which
 const volumeId = `${volumeLoaderScheme}:${volumeName}`; // VolumeId with loader id + volume id
 const segmentationId = 'MY_SEGMENTATION_ID';
 const toolGroupId = 'MY_TOOLGROUP_ID';
-const size = '500px';
+const size = '800px';
 
 const brushInstanceNames = {
     CircularBrush: 'CircularBrush',
@@ -370,10 +370,12 @@ async function run(element1,element2,element3) {
   // Get Cornerstone imageIds for the source data and fetch metadata into RAM
   const imageIds = await createImageIdsAndCacheMetaData({
     StudyInstanceUID:
-      '1.3.6.1.4.1.14519.5.2.1.7009.2403.334240657131972136850343327463',
+      '1.2.826.0.1.3680043.2.1125.1.77328468845035884579163747272541108',
+      // '1.2.826.0.1.3680043.2.1125.1.66289436940709278676326489706404865',
     SeriesInstanceUID:
-      '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561',
-    wadoRsRoot: 'https://d1qmxk7r72ysft.cloudfront.net/dicomweb',
+      '1.2.826.0.1.3680043.2.1125.1.19726334934540262961720391497248124',
+      // '1.2.826.0.1.3680043.2.1125.1.75059678148724152384744924234228447',
+    wadoRsRoot: 'api/',
   });
 
   // Define a volume in memory
