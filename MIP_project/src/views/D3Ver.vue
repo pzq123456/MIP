@@ -25,12 +25,23 @@ import {
   cache
 } from '@cornerstonejs/core';
 import * as cornerstoneTools from '@cornerstonejs/tools';
+
+
 import {
   addDropdownToToolbar,
   createImageIdsAndCacheMetaData,
   initDemo,
   setTitleAndDescription,
 } from '../helpers';
+
+import * as cornerstoneNIFTIImageLoader from 'cornerstone-nifti-image-loader'
+
+cornerstoneNIFTIImageLoader.external.cornerstone = cornerstone;
+const ImageId = cornerstoneNIFTIImageLoader.nifti.ImageId;
+
+// console.log(ImageId)
+
+let loaded = false;
 
 const {
   ToolGroupManager,
@@ -164,11 +175,19 @@ async function run(element1) {
   // Get Cornerstone imageIds and fetch metadata into RAM
   const imageIds = await createImageIdsAndCacheMetaData({
     StudyInstanceUID:
-      '1.3.6.1.4.1.14519.5.2.1.7009.2403.334240657131972136850343327463',
+      // '1.2.826.0.1.3680043.2.1125.1.77328468845035884579163747272541108',
+      '1.2.826.0.1.3680043.2.1125.1.66289436940709278676326489706404865',
     SeriesInstanceUID:
-      '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561',
-    wadoRsRoot: 'https://d1qmxk7r72ysft.cloudfront.net/dicomweb',
+      // '1.2.826.0.1.3680043.2.1125.1.19726334934540262961720391497248124',
+      '1.2.826.0.1.3680043.2.1125.1.75059678148724152384744924234228447',
+    wadoRsRoot: 'api/',
   });
+
+  // // http://127.0.0.1:5500/data/input.nii
+  // let imageId = 'nifti:http://127.0.0.1:5500/data/input.nii';
+  // console.log('imageId', imageId)
+  // const imageIds = ImageId.fromURL(imageId);
+  // console.log('imageIds', imageIds)
 
   // Instantiate a rendering engine
   renderingEngine = new RenderingEngine(renderingEngineId);

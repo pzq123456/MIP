@@ -3,7 +3,8 @@ import HelloWorld from './components/HelloWorld.vue'
 import D2Ver from './views/D2Ver.vue'
 import D3Ver from './views/D3Ver.vue'
 import Segment from './views/Segment.vue'
-import Utils from './views/Utils.vue'
+import Utils from './views/utils.vue'
+
 
 
 const routes = [
