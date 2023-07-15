@@ -81,7 +81,7 @@ const toast = () => {
   </p>
 </template>
 
-<style>
+<style >
 .ep-button {
   margin: 4px;
 }
