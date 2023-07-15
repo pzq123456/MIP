@@ -63,7 +63,7 @@ const viewportId = '3D_VIEWPORT';
 
 
 onMounted(() => {
-  const size = '300px';
+  const size = '800px';
 
   // using ref to get 'content' element
   const content = ref(document.getElementById('content')); // 获取content元素
@@ -175,11 +175,11 @@ async function run(element1) {
   // Get Cornerstone imageIds and fetch metadata into RAM
   const imageIds = await createImageIdsAndCacheMetaData({
     StudyInstanceUID:
-      // '1.2.826.0.1.3680043.2.1125.1.77328468845035884579163747272541108',
-      '1.2.826.0.1.3680043.2.1125.1.66289436940709278676326489706404865',
+      '1.2.826.0.1.3680043.2.1125.1.77328468845035884579163747272541108',
+      // '1.2.826.0.1.3680043.2.1125.1.66289436940709278676326489706404865',
     SeriesInstanceUID:
-      // '1.2.826.0.1.3680043.2.1125.1.19726334934540262961720391497248124',
-      '1.2.826.0.1.3680043.2.1125.1.75059678148724152384744924234228447',
+      '1.2.826.0.1.3680043.2.1125.1.19726334934540262961720391497248124',
+      // '1.2.826.0.1.3680043.2.1125.1.75059678148724152384744924234228447',
     wadoRsRoot: 'api/',
   });
 

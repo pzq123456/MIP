@@ -1,9 +1,5 @@
 <template>
-<h5> 2D 视图 开发中</h5>
-<a href="https://www.cornerstonejs.org/docs/category/getting-started">库访问连接</a>
-<a href="https://cn.vuejs.org/api/composition-api-lifecycle"> Vue 文档</a>
-<a href="https://juejin.cn/post/7132361845796503566">教程</a>
-
+<h1>2D视图</h1>
 <div id="demo-toolbar"></div>
 <div id="content"></div>
 

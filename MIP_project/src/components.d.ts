@@ -7,6 +7,8 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BaseHeader: typeof import('./components/layouts/BaseHeader.vue')['default']
+    BaseSide: typeof import('./components/layouts/BaseSide.vue')['default']
     D3ToolComs: typeof import('./components/D3VerComs/D3ToolComs.vue')['default']
     DetailDialog: typeof import('./components/TableComs/detailDialog.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -26,13 +28,22 @@ declare module 'vue' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
+    ElMenu: typeof import('element-plus/es')['ElMenu']
+    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
+    ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRow: typeof import('element-plus/es')['ElRow']
+    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    LoadingBar: typeof import('./components/UtilsCom/LoadingBar.vue')['default']
+    Logos: typeof import('./components/Logos.vue')['default']
+    ModelCard: typeof import('./components/UtilsCom/ModelCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    StatusBar: typeof import('./components/UtilsCom/StatusBar.vue')['default']
   }
 }

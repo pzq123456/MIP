@@ -11,7 +11,8 @@ import { toggleDark } from "~/composables";
     <el-button type="primary" siza="small" plain @click="$router.push('/d3ver');">Go to D3Ver</el-button>
     <el-button type="primary" siza="small" plain @click="$router.push('/segment');">Go to Segment</el-button>
     <el-button type="primary" siza="small" plain @click="$router.push('/utils');">Go to utils</el-button>
-
+    <el-button type="primary" siza="small" plain @click="$router.push('/d3ver_demo');">Go to d3ver_demo</el-button>
+    <el-button type="primary" siza="small" plain @click="$router.push('/table');">Go to Table</el-button>
     <el-menu class="el-menu-demo" mode="horizontal">
 
     <el-menu-item index="1">
