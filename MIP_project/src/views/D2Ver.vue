@@ -6,6 +6,7 @@
 
 <div id="demo-toolbar"></div>
 <div id="content"></div>
+
 </template>
 
 <script setup>
@@ -81,7 +82,7 @@ AngleTool.toolName,
 CobbAngleTool.toolName,
 ArrowAnnotateTool.toolName,
 ];
-// 记录选择的工具m
+// 记录选择的工具
 let selectedToolName = toolsNames[0];
 
 onMounted(() => {
@@ -482,5 +483,4 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-
 </style>

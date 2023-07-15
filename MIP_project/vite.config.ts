@@ -22,6 +22,8 @@ export default defineConfig({
     alias: {
       '~/': `${pathSrc}/`,
       '@cornerstonejs/dicom-image-loader': '@cornerstonejs/dicom-image-loader/dist/dynamic-import/cornerstoneDICOMImageLoader.min.js',
+      'cornerstone-nifti-image-loader': '@cornerstonejs/nifti-image-loader/dist/cornerstoneNIFTIImageLoader.min.js',
+      '@cornerstonejs/core': '@cornerstonejs/core/src/index.ts',
     },
   },
   server: {
@@ -31,7 +33,7 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:8042/dicom-web/',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
