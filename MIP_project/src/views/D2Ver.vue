@@ -408,22 +408,22 @@ onUnmounted(() => {
     '1.3.6.1.4.1.14519.5.2.1.7009.2403.334240657131972136850343327463';
 
   // Get Cornerstone imageIds and fetch metadata into RAM
-  // const ctImageIds = await createImageIdsAndCacheMetaData({
-  //   StudyInstanceUID,
-  //   SeriesInstanceUID:
-  //     '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561',
-  //   wadoRsRoot,
-  // });
-
   const ctImageIds = await createImageIdsAndCacheMetaData({
-    StudyInstanceUID:
-      '1.2.826.0.1.3680043.2.1125.1.77328468845035884579163747272541108',
-      // '1.2.826.0.1.3680043.2.1125.1.66289436940709278676326489706404865',
+    StudyInstanceUID,
     SeriesInstanceUID:
-      '1.2.826.0.1.3680043.2.1125.1.19726334934540262961720391497248124',
-      // '1.2.826.0.1.3680043.2.1125.1.75059678148724152384744924234228447',
-    wadoRsRoot: 'api/',
+      '1.3.6.1.4.1.14519.5.2.1.7009.2403.226151125820845824875394858561',
+    wadoRsRoot,
   });
+
+  // const ctImageIds = await createImageIdsAndCacheMetaData({
+  //   StudyInstanceUID:
+  //     '1.2.826.0.1.3680043.2.1125.1.77328468845035884579163747272541108',
+  //     // '1.2.826.0.1.3680043.2.1125.1.66289436940709278676326489706404865',
+  //   SeriesInstanceUID:
+  //     '1.2.826.0.1.3680043.2.1125.1.19726334934540262961720391497248124',
+  //     // '1.2.826.0.1.3680043.2.1125.1.75059678148724152384744924234228447',
+  //   wadoRsRoot: 'api/',
+  // });
 
   const ptImageIds = await createImageIdsAndCacheMetaData({
     StudyInstanceUID,
